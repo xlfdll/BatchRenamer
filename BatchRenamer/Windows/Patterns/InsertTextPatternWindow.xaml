@@ -1,0 +1,84 @@
+﻿<Window x:Class="BatchRenamer.Patterns.InsertTextPatternWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BatchRenamer.Patterns"
+        xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        mc:Ignorable="d"
+        Title="Insert Text" Icon="pack://application:,,,/BatchRenamer.ico"
+        ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" Width="480">
+
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Grid">
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style TargetType="WindowsFormsHost">
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style TargetType="Button" BasedOn="{StaticResource ModernCommonButtonStyle}"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="_Text"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                 Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="_Position"/>
+        <WindowsFormsHost Grid.Row="1" Grid.Column="1">
+            <forms:NumericUpDown x:Name="PositionNumericUpDown" DecimalPlaces="0" Minimum="0" Maximum="260" Value="0"
+                                 ValueChanged="PositionNumericUpDown_ValueChanged"/>
+        </WindowsFormsHost>
+
+        <Button Grid.Row="1" Grid.Column="2" Content="_Preview" HorizontalAlignment="Right"
+                Command="{x:Static local:InsertTextPatternCommands.PreviewCommand}"/>
+
+        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding}"
+                  SizeChanged="FilesListView_SizeChanged">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Preview">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=PreviewFileName}" IsReadOnly="True"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
+                </GridView>
+            </ListView.View>
+            <ListView.DataContext>
+                <!-- CollectionViewSource needs to be in DataContext and bound to ItemsSource by {Binding} -->
+                <CollectionViewSource Source="{Binding Path=Files}"/>
+            </ListView.DataContext>
+        </ListView>
+
+        <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="_Apply" IsDefault="True" Command="{x:Static local:InsertTextPatternCommands.ApplyCommand}"/>
+            <Button Content="_Cancel" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>
