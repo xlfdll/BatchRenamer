@@ -190,6 +190,21 @@
                         <MenuItem Header="Open Containing Folder"
                                   Command="{x:Static local:ViewCommands.OpenFolderCommand}"/>
                         <Separator/>
+                        <MenuItem Header="Copy New File Name"
+                                  Command="{x:Static local:ViewCommands.CopyCommand}"
+                                  CommandParameter="NewFileName"/>
+                        <MenuItem Header="Copy Original File Name"
+                                  Command="{x:Static local:ViewCommands.CopyCommand}"
+                                  CommandParameter="OriginalFileName"/>
+                        <MenuItem Header="Copy New Full Path"
+                                  Command="{x:Static local:ViewCommands.CopyCommand}"
+                                  CommandParameter="NewFullPath"/>
+                        <MenuItem Header="Copy Original Full Path"
+                                  Command="{x:Static local:ViewCommands.CopyCommand}"
+                                  CommandParameter="OriginalFullPath"/>
+                        <MenuItem Header="Paste"
+                                  Command="{x:Static local:ViewCommands.PasteCommand}"/>
+                        <Separator/>
                         <MenuItem Header="Revert Selected"
                                   Command="{x:Static local:ViewCommands.RevertSelectedCommand}"/>
                         <MenuItem Header="Remove Selected"
@@ -202,6 +217,10 @@
                     </ContextMenu>
                 </ListView.ContextMenu>
                 <ListView.InputBindings>
+                    <KeyBinding Gesture="Ctrl+C"
+                                Command="{x:Static local:ViewCommands.CopyCommand}"
+                                CommandParameter="NewFileName"/>
+                    <KeyBinding Gesture="Ctrl+V" Command="{x:Static local:ViewCommands.PasteCommand}"/>
                     <KeyBinding Gesture="Ctrl+A" Command="{x:Static local:ViewCommands.SelectAllCommand}"/>
                     <KeyBinding Gesture="Delete" Command="{x:Static local:ViewCommands.RemoveSelectedCommand}"/>
                 </ListView.InputBindings>

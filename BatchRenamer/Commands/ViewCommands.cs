@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Windows;
 
 using Xlfdll.Collections;
 using Xlfdll.Diagnostics;
@@ -32,6 +35,86 @@ namespace BatchRenamer
                 delegate
                 {
                     return AppState.Current?.SelectedFiles.Count == 1;
+                }
+            );
+
+            ViewCommands.CopyCommand = new RelayCommand<String>
+            (
+                (parameter) =>
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    AppState.Current.SelectedFiles.ForEach
+                    (
+                        (item) =>
+                        {
+                            switch (parameter)
+                            {
+                                case "NewFileName":
+                                    {
+                                        sb.AppendLine(item.NewFileName);
+
+                                        break;
+                                    }
+                                case "OriginalFileName":
+                                    {
+                                        sb.AppendLine(item.OriginalFileName);
+
+                                        break;
+                                    }
+                                case "NewFullPath":
+                                    {
+                                        sb.AppendLine(item.NewFullPath);
+
+                                        break;
+                                    }
+                                case "OriginalFullPath":
+                                    {
+                                        sb.AppendLine(item.OriginalFullPath);
+
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        break;
+                                    }
+                            }
+                        }
+                    );
+
+                    Clipboard.SetText(sb.ToString());
+                },
+                (parameter) =>
+                {
+                    return AppState.Current?.SelectedFiles.Count > 0;
+                }
+            );
+
+            ViewCommands.PasteCommand = new RelayCommand<Object>
+            (
+                delegate
+                {
+                    using (StringReader reader = new StringReader(Clipboard.GetText()))
+                    {
+                        Int32 i = 0;
+                        String line = reader.ReadLine();
+
+                        while (line != null && i < AppState.Current.SelectedFiles.Count)
+                        {
+                            line = line.Trim('"').Trim();
+
+                            if (!String.IsNullOrEmpty(line))
+                            {
+                                AppState.Current.SelectedFiles[i++].NewFileName = Path.GetFileNameWithoutExtension(line);
+                            }
+
+                            line = reader.ReadLine();
+                        }
+                    }
+                },
+                delegate
+                {
+                    return AppState.Current?.SelectedFiles.Count > 0;
                 }
             );
 
@@ -96,6 +179,8 @@ namespace BatchRenamer
 
         public static RelayCommand<Object> OpenCommand { get; }
         public static RelayCommand<Object> OpenFolderCommand { get; }
+        public static RelayCommand<String> CopyCommand { get; }
+        public static RelayCommand<Object> PasteCommand { get; }
         public static RelayCommand<Object> RevertSelectedCommand { get; }
         public static RelayCommand<Object> RemoveSelectedCommand { get; }
         public static RelayCommand<Object> SelectAllCommand { get; }
