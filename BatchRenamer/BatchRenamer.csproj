@@ -93,6 +93,9 @@
     <Compile Include="..\XDLibrary\Xlfdll.Windows.Presentation\ApplicationPackUri.cs">
       <Link>Base\Windows\Presentation\ApplicationPackUri.cs</Link>
     </Compile>
+    <Compile Include="..\XDLibrary\Xlfdll.Windows.Presentation\Behaviors\DoubleClickBehavior.cs">
+      <Link>Base\Windows\Presentation\Behaviors\DoubleClickBehavior.cs</Link>
+    </Compile>
     <Compile Include="..\XDLibrary\Xlfdll.Windows.Presentation\Dialogs\AboutWindow.xaml.cs">
       <Link>Base\Windows\Presentation\Dialogs\AboutWindow.xaml.cs</Link>
       <DependentUpon>AboutWindow.xaml</DependentUpon>

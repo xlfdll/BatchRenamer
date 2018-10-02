@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRenamer"
         xmlns:pattern="clr-namespace:BatchRenamer.Patterns"
+        xmlns:xdwpf="clr-namespace:Xlfdll.Windows.Presentation"
         mc:Ignorable="d"
         Title="Batch Renamer" Icon="pack://application:,,,/BatchRenamer.ico"
         Width="1280" Height="720" MinWidth="360" MinHeight="240" WindowStartupLocation="CenterScreen"
@@ -147,6 +148,8 @@
                     <Style TargetType="ListViewItem">
                         <Setter Property="IsSelected" Value="{Binding Path=IsSelected}"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                        <Setter Property="xdwpf:DoubleClickBehavior.Command" Value="{x:Static local:ViewCommands.OpenCommand}"/>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>

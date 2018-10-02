@@ -109,6 +109,11 @@ namespace BatchRenamer
             LayoutHelper.AdjustListViewColumns(BatchFileListView);
         }
 
+        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
         private void NewFileNameTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             ListViewItem item = (sender as TextBox).GetParent<ListViewItem>();
