@@ -46,7 +46,7 @@ namespace BatchRenamer.Patterns
                 },
                 delegate
                 {
-                    return !String.IsNullOrEmpty(FindAndReplacePatternViewState.Current?.FindWhat.Trim());
+                    return !String.IsNullOrEmpty(FindAndReplacePatternViewState.Current?.FindWhat);
                 }
             );
 
@@ -70,7 +70,7 @@ namespace BatchRenamer.Patterns
                 },
                 delegate
                 {
-                    return !String.IsNullOrEmpty(FindAndReplacePatternViewState.Current?.FindWhat.Trim());
+                    return !String.IsNullOrEmpty(FindAndReplacePatternViewState.Current?.FindWhat);
                 }
             );
         }
