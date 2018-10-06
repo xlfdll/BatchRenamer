@@ -27,6 +27,24 @@ namespace BatchRenamer
             AppState.Current.Files.CollectionChanged += BatchFiles_CollectionChanged;
         }
 
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if (AppState.Current.Files.Count > 0)
+            {
+                MessageBoxResult result = MessageBox.Show(Application.Current.MainWindow,
+                               "There are still files in the list that might be waiting for processing."
+                               + Environment.NewLine
+                               + Environment.NewLine
+                               + "Do you want to exit?",
+                               Application.Current.MainWindow.Title,
+                               MessageBoxButton.YesNo,
+                               MessageBoxImage.Question,
+                               MessageBoxResult.No);
+
+                e.Cancel = (result == MessageBoxResult.No);
+            }
+        }
+
         private void MainWindow_PreviewDragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -109,11 +127,6 @@ namespace BatchRenamer
             LayoutHelper.AdjustListViewColumns(BatchFileListView);
         }
 
-        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
         private void NewFileNameTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             ListViewItem item = (sender as TextBox).GetParent<ListViewItem>();
@@ -167,7 +180,7 @@ namespace BatchRenamer
                 }
             }
         }
-        
+
         private ListSortDirection lastDirection = ListSortDirection.Ascending;
     }
 }
