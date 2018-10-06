@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Web Match" Icon="pack://application:,,,/BatchRenamer.ico"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner" Width="800">
+        WindowStartupLocation="CenterOwner" Width="1280">
 
     <Grid IsEnabled="{Binding Path=IsReady}">
         <Grid.Resources>
@@ -21,7 +21,7 @@
                 <Setter Property="Margin" Value="3"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
-            <Style TargetType="TextBox">
+            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                 <Setter Property="Margin" Value="5"/>
             </Style>
             <Style TargetType="Image">
@@ -45,7 +45,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="300"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -125,7 +125,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="300"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

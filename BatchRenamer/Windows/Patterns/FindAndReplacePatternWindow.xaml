@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Find and Replace" Icon="pack://application:,,,/BatchRenamer.ico"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner" Width="480">
+        WindowStartupLocation="CenterOwner" Width="800">
 
     <Grid>
         <Grid.Resources>
@@ -20,7 +20,7 @@
             <Style TargetType="Label">
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
-            <Style TargetType="TextBox">
+            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                 <Setter Property="Margin" Value="5"/>
             </Style>
             <Style TargetType="CheckBox">
@@ -33,7 +33,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="300"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
