@@ -36,8 +36,6 @@ namespace BatchRenamer
         public ObservableCollection<BatchFileInfo> Files { get; }
         public ObservableCollection<BatchFileInfo> SelectedFiles { get; }
 
-        public Boolean IsModified => this.Files.Any(f => f.NewFileName != f.OriginalFileName);
-
         public void UpdateSelection()
         {
             this.SelectedFiles.Clear();

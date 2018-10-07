@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 
 using Microsoft.Win32;
@@ -83,7 +84,7 @@ namespace BatchRenamer
                 delegate
                 {
                     return AppState.Current?.Files.Count > 0
-                        && AppState.Current.IsModified;
+                        && AppState.Current?.Files.Count(f => f.IsModified) > 0;
                 }
             );
         }

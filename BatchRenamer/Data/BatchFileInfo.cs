@@ -25,14 +25,30 @@ namespace BatchRenamer
 
         public String OriginalFileName
         {
-            get { return _originalFileName; }
-            private set { SetField(ref _originalFileName, value); }
+            get
+            {
+                return _originalFileName;
+            }
+            private set
+            {
+                SetField(ref _originalFileName, value);
+
+                OnPropertyChanged(nameof(this.IsModified));
+            }
         }
 
         public String NewFileName
         {
-            get { return _newFileName; }
-            set { SetField(ref _newFileName, value); }
+            get
+            {
+                return _newFileName;
+            }
+            set
+            {
+                SetField(ref _newFileName, value);
+
+                OnPropertyChanged(nameof(this.IsModified));
+            }
         }
 
         public Boolean IsSelected
@@ -40,6 +56,8 @@ namespace BatchRenamer
             get { return _isSelected; }
             set { SetField(ref _isSelected, value); }
         }
+
+        public Boolean IsModified => (this.NewFileName != this.OriginalFileName);
 
         public String Extension => this.OriginalFileInfo.Extension;
         public Int64 Size => this.OriginalFileInfo.Length;
@@ -50,7 +68,7 @@ namespace BatchRenamer
 
         public void CommitRename()
         {
-            if (this.NewFileName != this.OriginalFileName)
+            if (this.IsModified)
             {
                 this.OriginalFileInfo.MoveTo(this.NewFullPath);
                 this.OnPropertyChanged();

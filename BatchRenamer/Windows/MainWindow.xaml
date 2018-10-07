@@ -146,6 +146,13 @@
                 </ListView.GroupStyle>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsModified}" Value="True">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" Value="Red"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+
                         <Setter Property="IsSelected" Value="{Binding Path=IsSelected}"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 
