@@ -66,6 +66,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\BuildInfo.cs">
+      <Link>BuildInfo.cs</Link>
+    </Compile>
     <Compile Include="..\XDLibrary\Xlfdll.Core\Diagnostics\AssemblyMetadata.cs">
       <Link>Base\Diagnostics\AssemblyMetadata.cs</Link>
     </Compile>
