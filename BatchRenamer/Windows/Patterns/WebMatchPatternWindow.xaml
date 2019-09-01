@@ -163,7 +163,8 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
+                            <GridViewColumn Header="Modified" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
+                            <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
                         </GridView>
                     </ListView.View>
                     <ListView.DataContext>
