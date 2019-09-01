@@ -18,7 +18,7 @@ namespace BatchRenamer.Patterns
                     {
                         for (Int32 i = 0, j = NumberizePatternViewState.Current.NumberStart; i < NumberizePatternViewState.Current.Files.Count; i++, j++)
                         {
-                            NumberizePatternViewState.Current.Files[i].PreviewFileName = j.ToString(NumberizePatternViewState.Current.NumberFormat);
+                            NumberizePatternViewState.Current.Files[i].PreviewFileName = String.Format(NumberizePatternViewState.Current.NumberFormat, j);
                         }
 
                         NumberizePatternViewState.Current.IsError = false;

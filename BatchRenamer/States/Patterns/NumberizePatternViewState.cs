@@ -10,7 +10,7 @@ namespace BatchRenamer.Patterns
         public NumberizePatternViewState()
         {
             this.IsNumber = true;
-            this.NumberFormat = "D";
+            this.NumberFormat = "{0:D1}";
             this.NumberStart = 1;
 
             this.Files = new ObservableCollection<PatternFileInfo>();
