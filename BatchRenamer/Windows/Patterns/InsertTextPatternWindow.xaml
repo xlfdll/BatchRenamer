@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="Insert Text" Icon="pack://application:,,,/BatchRenamer.ico"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
+        FocusManager.FocusedElement="{Binding ElementName=InsertTextBox}"
         WindowStartupLocation="CenterOwner" Width="800">
 
     <Grid>
@@ -39,7 +40,8 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="_Text"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+        <TextBox x:Name="InsertTextBox" x:FieldModifier="private"
+                 Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
                  Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Label Grid.Row="1" Grid.Column="0" Content="_Position"/>

@@ -7,10 +7,14 @@
         mc:Ignorable="d"
         Title="Web Match" Icon="pack://application:,,,/BatchRenamer.ico"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
+        FocusManager.FocusedElement="{Binding ElementName=WebURLTextBox}"
         WindowStartupLocation="CenterOwner" Width="1280">
 
     <Grid IsEnabled="{Binding Path=IsReady}">
         <Grid.Resources>
+            <Style TargetType="Grid">
+                <Setter Property="Margin" Value="5"/>
+            </Style>
             <Style TargetType="GroupBox">
                 <Setter Property="Margin" Value="5"/>
             </Style>
@@ -53,7 +57,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Row="0" Grid.Column="0" Content="UR_L"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=WebURL, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox x:Name="WebURLTextBox" x:FieldModifier="private"
+                         Grid.Row="0" Grid.Column="1" Text="{Binding Path=WebURL, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Label Grid.Row="1" Grid.Column="0" Content="_Expression"/>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=WebRegex, UpdateSourceTrigger=PropertyChanged}"/>

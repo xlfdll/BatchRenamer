@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Find and Replace" Icon="pack://application:,,,/BatchRenamer.ico"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
+        FocusManager.FocusedElement="{Binding ElementName=FindWhatTextBox}"
         WindowStartupLocation="CenterOwner" Width="800">
 
     <Grid>
@@ -42,7 +43,8 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="_Find What"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=FindWhat, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox x:Name="FindWhatTextBox" x:FieldModifier="private"
+                 Grid.Row="0" Grid.Column="1" Text="{Binding Path=FindWhat, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Label Grid.Row="1" Grid.Column="0" Content="_Replace With"/>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=ReplaceWith, UpdateSourceTrigger=PropertyChanged}"/>
