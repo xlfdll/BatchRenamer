@@ -7,7 +7,7 @@
         xmlns:pattern="clr-namespace:BatchRenamer.Patterns"
         xmlns:xdwpf="clr-namespace:Xlfdll.Windows.Presentation"
         mc:Ignorable="d"
-        Title="Batch Renamer" Icon="pack://application:,,,/BatchRenamer.ico"
+        Title="Batch Renamer"
         Width="1280" Height="720" MinWidth="360" MinHeight="240" WindowStartupLocation="CenterScreen"
         AllowDrop="True" PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop"
         Loaded="MainWindow_Loaded" Closing="MainWindow_Closing">

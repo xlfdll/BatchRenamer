@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BatchRenamer.Patterns"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        Title="Numberize" Icon="pack://application:,,,/BatchRenamer.ico"
+        Title="Numberize"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" Width="800">
 

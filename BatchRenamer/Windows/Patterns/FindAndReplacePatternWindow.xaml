@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRenamer.Patterns"
         mc:Ignorable="d"
-        Title="Find and Replace" Icon="pack://application:,,,/BatchRenamer.ico"
+        Title="Find and Replace"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
         FocusManager.FocusedElement="{Binding ElementName=FindWhatTextBox}"
         WindowStartupLocation="CenterOwner" Width="800">

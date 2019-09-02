@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRenamer.Patterns"
         mc:Ignorable="d"
-        Title="Web Match" Icon="pack://application:,,,/BatchRenamer.ico"
+        Title="Web Match"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
         FocusManager.FocusedElement="{Binding ElementName=WebURLTextBox}"
         WindowStartupLocation="CenterOwner" Width="1280">

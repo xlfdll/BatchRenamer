@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BatchRenamer.Patterns"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        Title="Insert Text" Icon="pack://application:,,,/BatchRenamer.ico"
+        Title="Insert Text"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
         FocusManager.FocusedElement="{Binding ElementName=InsertTextBox}"
         WindowStartupLocation="CenterOwner" Width="800">
