@@ -38,6 +38,6 @@ namespace BatchRenamer.Patterns
         }
 
         public static InsertTextPatternViewState Current { get; private set; }
-        public static readonly String Title = "Insert Text";
+        public const String Title = "Insert Text";
     }
 }

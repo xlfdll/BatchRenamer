@@ -57,6 +57,6 @@ namespace BatchRenamer.Patterns
         public Boolean IsError { get; set; }
 
         public static FindAndReplacePatternViewState Current { get; private set; }
-        public static readonly String Title = "Find and Replace";
+        public const String Title = "Find and Replace";
     }
 }

@@ -48,6 +48,6 @@ namespace BatchRenamer.Patterns
         public Boolean IsError { get; set; }
 
         public static NumberizePatternViewState Current { get; private set; }
-        public static readonly String Title = "Numberize";
+        public const String Title = "Numberize";
     }
 }

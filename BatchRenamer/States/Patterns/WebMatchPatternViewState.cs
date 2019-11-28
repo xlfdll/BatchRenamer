@@ -80,6 +80,6 @@ namespace BatchRenamer.Patterns
         public Boolean IsError { get; set; }
 
         public static WebMatchPatternViewState Current { get; private set; }
-        public static readonly String Title = "Web Match";
+        public const String Title = "Web Match";
     }
 }
