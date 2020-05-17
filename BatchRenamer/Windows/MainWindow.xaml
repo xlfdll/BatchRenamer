@@ -173,13 +173,7 @@
                         </GridViewColumn>
                         <GridViewColumn Header="Original File Name" DisplayMemberBinding="{Binding Path=OriginalFileName}"/>
                         <GridViewColumn Header="Extension" DisplayMemberBinding="{Binding Path=Extension}"/>
-                        <GridViewColumn Header="Size">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Size, Converter={local:FileSizeValueConverter}}" TextAlignment="Right"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                        <GridViewColumn Header="Size" DisplayMemberBinding="{Binding Path=Size, Converter={local:FileSizeValueConverter}}"/>
                     </GridView>
                 </ListView.View>
                 <ListView.DataContext>
