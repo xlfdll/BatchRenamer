@@ -18,7 +18,22 @@ namespace BatchRenamer
             (
                 delegate
                 {
-                    ProcessHelper.Start(AppState.Current.SelectedFiles[0].OriginalFullPath, true);
+                    try
+                    {
+                        ProcessHelper.Start(AppState.Current.SelectedFiles[0].OriginalFullPath, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(App.Current.MainWindow,
+                            $"An error occurred when opening the file {Environment.NewLine}" +
+                            $"{AppState.Current.SelectedFiles[0].OriginalFullPath}" +
+                            $"{Environment.NewLine}" +
+                            $"{Environment.NewLine}" +
+                            $"{ex.Message}",
+                            App.Current.MainWindow.Title,
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                    }
                 },
                 delegate
                 {
