@@ -14,6 +14,6 @@ namespace BatchRenamer
 
 		public static AssemblyMetadata Metadata { get; }
 
-		public static MainWindow MainWindow => Application.Current.MainWindow as MainWindow;
+		public static MainWindow MainWindow => App.Current.MainWindow as MainWindow;
 	}
 }

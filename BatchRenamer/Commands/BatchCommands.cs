@@ -55,14 +55,14 @@ namespace BatchRenamer
             (
                 delegate
                 {
-                    MessageBoxResult result = MessageBox.Show(Application.Current.MainWindow,
+                    MessageBoxResult result = MessageBox.Show(App.Current.MainWindow,
                        "The files will be renamed according to the new file names."
                        + Environment.NewLine
                        + "This operation is NOT reversible."
                        + Environment.NewLine
                        + Environment.NewLine
                        + "Continue?",
-                       Application.Current.MainWindow.Title,
+                       App.Current.MainWindow.Title,
                        MessageBoxButton.YesNo,
                        MessageBoxImage.Question,
                        MessageBoxResult.No);

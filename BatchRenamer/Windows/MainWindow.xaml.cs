@@ -31,12 +31,12 @@ namespace BatchRenamer
         {
             if (AppState.Current.Files.Count > 0)
             {
-                MessageBoxResult result = MessageBox.Show(Application.Current.MainWindow,
+                MessageBoxResult result = MessageBox.Show(App.Current.MainWindow,
                                "There are still files in the list that might be waiting for processing."
                                + Environment.NewLine
                                + Environment.NewLine
                                + "Do you want to exit?",
-                               Application.Current.MainWindow.Title,
+                               App.Current.MainWindow.Title,
                                MessageBoxButton.YesNo,
                                MessageBoxImage.Question,
                                MessageBoxResult.No);
