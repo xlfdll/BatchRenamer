@@ -46,7 +46,7 @@ namespace BatchRenamer
 
 				AppState.Current.UpdateStatus($"An error occurred: {ex.Message} ({batchFileInfo.OriginalFileName} => {batchFileInfo.NewFileName})");
 
-				ExceptionMessageBox.Show(ApplicationHelper.MainWindow.Title, $"The following error occurred when renaming the file {batchFileInfo.OriginalFileName} to {batchFileInfo.NewFileName}:", ex);
+				ExceptionMessageBox.Show(App.MainWindow.Title, $"The following error occurred when renaming the file {batchFileInfo.OriginalFileName} to {batchFileInfo.NewFileName}:", ex);
 			}
 
 			AppState.Current.IsBusy = false;

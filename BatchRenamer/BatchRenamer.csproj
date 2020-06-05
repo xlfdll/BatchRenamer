@@ -159,7 +159,6 @@
     <Compile Include="Commands\ViewCommands.cs" />
     <Compile Include="Data\BatchFileInfo.cs" />
     <Compile Include="States\AppState.cs" />
-    <Compile Include="Helpers\ApplicationHelper.cs" />
     <Compile Include="Commands\GeneralCommands.cs" />
     <Compile Include="Helpers\LayoutHelper.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">

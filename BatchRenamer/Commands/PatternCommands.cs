@@ -21,7 +21,7 @@ namespace BatchRenamer
 
                     Window patternWindow = Activator.CreateInstance(t, files) as Window;
 
-                    patternWindow.Owner = ApplicationHelper.MainWindow;
+                    patternWindow.Owner = App.MainWindow;
                     patternWindow.ShowDialog();
                 },
                 delegate

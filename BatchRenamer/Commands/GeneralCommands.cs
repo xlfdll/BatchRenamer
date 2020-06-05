@@ -14,8 +14,7 @@ namespace BatchRenamer
                 delegate
                 {
                     AboutWindow aboutWindow = new AboutWindow
-                    (ApplicationHelper.MainWindow,
-                    ApplicationHelper.Metadata,
+                    (App.MainWindow, App.Metadata,
                     new ApplicationPackUri("/Images/BatchRenamer.png"));
 
                     aboutWindow.ShowDialog();

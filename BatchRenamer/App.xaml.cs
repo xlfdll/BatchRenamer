@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+
+using Xlfdll.Diagnostics;
 
 namespace BatchRenamer
 {
@@ -13,5 +9,7 @@ namespace BatchRenamer
     /// </summary>
     public partial class App : Application
     {
+        public static AssemblyMetadata Metadata => AssemblyMetadata.EntryAssemblyMetadata;
+        public static new MainWindow MainWindow => App.Current.MainWindow as MainWindow;
     }
 }
