@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="pack://application:,,,/Resources/Icons.BatchRenamer.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources/Styles.App.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources/Templates.App.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources/Styles.ToolBar.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources/Styles.StatusBar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">

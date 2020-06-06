@@ -33,15 +33,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <ToolBar Grid.Row="0" ToolBarTray.IsLocked="True">
-                <ToolBar.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="pack://application:,,,/Resources/Styles.ToolBar.xaml"/>
-                        </ResourceDictionary.MergedDictionaries>
-                    </ResourceDictionary>
-                </ToolBar.Resources>
-
+            <ToolBar Grid.Row="0" ToolBarTray.IsLocked="True" Style="{StaticResource ModernToolBarStyle}">
                 <Separator/>
                 <Button Command="{x:Static local:BatchCommands.AddFileCommand}">
                     <StackPanel>
@@ -228,14 +220,7 @@
             </ListView>
         </Grid>
 
-        <StatusBar Grid.Row="1">
-            <StatusBar.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="pack://application:,,,/Resources/Styles.StatusBar.xaml"/>
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </StatusBar.Resources>
+        <StatusBar Grid.Row="1" Style="{StaticResource ModernStatusBarStyle}">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
