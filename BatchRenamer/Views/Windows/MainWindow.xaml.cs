@@ -22,14 +22,18 @@ namespace BatchRenamer
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            this.DataContext = new AppState();
+            MainViewModel mainViewModel = new MainViewModel();
 
-            AppState.Current.Files.CollectionChanged += BatchFiles_CollectionChanged;
+            mainViewModel.Files.CollectionChanged += BatchFiles_CollectionChanged;
+
+            this.DataContext = mainViewModel;
         }
 
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            if (AppState.Current.Files.Count > 0)
+            MainViewModel mainViewModel = this.DataContext as MainViewModel;
+
+            if (mainViewModel?.Files.Count > 0)
             {
                 MessageBoxResult result = MessageBox.Show(App.Current.MainWindow,
                                "There are still files in the list that might be waiting for processing."
@@ -60,7 +64,9 @@ namespace BatchRenamer
 
             if (files != null && files.Length > 0)
             {
-                FileHelper.AddNewFiles(files);
+                MainViewModel mainViewModel = this.DataContext as MainViewModel;
+
+                mainViewModel?.AddNewFiles(files);
             }
         }
 
@@ -79,7 +85,9 @@ namespace BatchRenamer
 
         private void BatchFileListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            AppState.Current.UpdateSelection();
+            MainViewModel mainViewModel = this.DataContext as MainViewModel;
+
+            mainViewModel?.UpdateSelection();
         }
 
         private void BatchFileListView_KeyDown(object sender, KeyEventArgs e)
@@ -88,7 +96,9 @@ namespace BatchRenamer
             {
                 if (BatchFileListView.SelectedItem != null)
                 {
-                    AppState.Current.Files.Remove(BatchFileListView.SelectedItem as BatchFileInfo);
+                    MainViewModel mainViewModel = this.DataContext as MainViewModel;
+
+                    mainViewModel?.Files.Remove(BatchFileListView.SelectedItem as BatchFileInfo);
                 }
 
                 e.Handled = true;
@@ -141,42 +151,47 @@ namespace BatchRenamer
         {
             if (e.Key == Key.Up || e.Key == Key.Down)
             {
-                Int32 currentIndex = BatchFileListView.SelectedIndex;
+                MainViewModel mainViewModel = this.DataContext as MainViewModel;
 
-                if (e.Key == Key.Up)
+                if (mainViewModel != null)
                 {
-                    currentIndex--;
-                }
-                else if (e.Key == Key.Down)
-                {
-                    currentIndex++;
-                }
-                else
-                {
-                    currentIndex = -1;
-                }
+                    Int32 currentIndex = BatchFileListView.SelectedIndex;
 
-                if (currentIndex >= 0 && currentIndex < AppState.Current.Files.Count)
-                {
-                    Int32 textIndex = 0;
-
-                    if (BatchFileListView.SelectedIndex >= 0)
+                    if (e.Key == Key.Up)
                     {
-                        ListViewItem currentItem = BatchFileListView.ItemContainerGenerator.ContainerFromItem(BatchFileListView.SelectedItem) as ListViewItem;
-                        TextBox currentNewFileNameTextBox = currentItem.GetDescendant<TextBox>("NewFileNameTextBox");
-
-                        textIndex = currentNewFileNameTextBox.SelectionStart;
+                        currentIndex--;
+                    }
+                    else if (e.Key == Key.Down)
+                    {
+                        currentIndex++;
+                    }
+                    else
+                    {
+                        currentIndex = -1;
                     }
 
-                    BatchFileListView.SelectedIndex = currentIndex;
+                    if (currentIndex >= 0 && currentIndex < mainViewModel.Files.Count)
+                    {
+                        Int32 textIndex = 0;
 
-                    ListViewItem nextItem = BatchFileListView.ItemContainerGenerator.ContainerFromItem(BatchFileListView.SelectedItem) as ListViewItem;
-                    TextBox nextNewFileNameTextBox = nextItem.GetDescendant<TextBox>("NewFileNameTextBox");
+                        if (BatchFileListView.SelectedIndex >= 0)
+                        {
+                            ListViewItem currentItem = BatchFileListView.ItemContainerGenerator.ContainerFromItem(BatchFileListView.SelectedItem) as ListViewItem;
+                            TextBox currentNewFileNameTextBox = currentItem.GetDescendant<TextBox>("NewFileNameTextBox");
 
-                    nextNewFileNameTextBox.Select(textIndex, 0);
-                    nextNewFileNameTextBox.Focus();
+                            textIndex = currentNewFileNameTextBox.SelectionStart;
+                        }
 
-                    e.Handled = true;
+                        BatchFileListView.SelectedIndex = currentIndex;
+
+                        ListViewItem nextItem = BatchFileListView.ItemContainerGenerator.ContainerFromItem(BatchFileListView.SelectedItem) as ListViewItem;
+                        TextBox nextNewFileNameTextBox = nextItem.GetDescendant<TextBox>("NewFileNameTextBox");
+
+                        nextNewFileNameTextBox.Select(textIndex, 0);
+                        nextNewFileNameTextBox.Focus();
+
+                        e.Handled = true;
+                    }
                 }
             }
         }

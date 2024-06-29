@@ -12,7 +12,7 @@ using Xlfdll;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Xlfdll Workstation")]
 [assembly: AssemblyProduct("Batch Renamer")]
-[assembly: AssemblyCopyright("© 2017 Xlfdll Workstation")]
+[assembly: AssemblyCopyright("© 2017-2024 Xlfdll Workstation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

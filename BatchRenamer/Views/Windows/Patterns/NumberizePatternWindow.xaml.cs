@@ -14,19 +14,22 @@ namespace BatchRenamer.Patterns
         {
             InitializeComponent();
 
-            NumberizePatternViewState viewState = new NumberizePatternViewState();
+            NumberizePatternViewModel viewModel
+                = new NumberizePatternViewModel(App.MainWindow.DataContext as MainViewModel);
 
-            viewState.RequestClose += delegate { this.Close(); };
+            viewModel.RequestClose += delegate { this.Close(); };
 
-            this.DataContext = viewState;
+            this.DataContext = viewModel;
         }
 
         public NumberizePatternWindow(IEnumerable<BatchFileInfo> files)
             : this()
         {
+            NumberizePatternViewModel viewModel = this.DataContext as NumberizePatternViewModel;
+
             foreach (BatchFileInfo item in files)
             {
-                NumberizePatternViewState.Current.Files.Add(new PatternFileInfo(item));
+                viewModel?.Files.Add(new PatternFileInfo(item));
             }
         }
 
@@ -34,9 +37,11 @@ namespace BatchRenamer.Patterns
         {
             // This event may be fired before DataContext is set
 
-            if (NumberizePatternViewState.Current != null)
+            NumberizePatternViewModel viewModel = this.DataContext as NumberizePatternViewModel;
+
+            if (viewModel != null)
             {
-                NumberizePatternViewState.Current.NumberStart = Convert.ToInt32(NumberStartNumericUpDown.Value);
+                viewModel.NumberStart = Convert.ToInt32(NumberStartNumericUpDown.Value);
             }
         }
 

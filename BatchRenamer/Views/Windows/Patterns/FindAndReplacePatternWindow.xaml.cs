@@ -13,19 +13,22 @@ namespace BatchRenamer.Patterns
         {
             InitializeComponent();
 
-            FindAndReplacePatternViewState viewState = new FindAndReplacePatternViewState();
+            FindAndReplacePatternViewModel viewModel
+                = new FindAndReplacePatternViewModel(App.MainWindow.DataContext as MainViewModel);
 
-            viewState.RequestClose += delegate { this.Close(); };
+            viewModel.RequestClose += delegate { this.Close(); };
 
-            this.DataContext = viewState;
+            this.DataContext = viewModel;
         }
 
         public FindAndReplacePatternWindow(IEnumerable<BatchFileInfo> files)
             : this()
         {
+            FindAndReplacePatternViewModel viewModel = this.DataContext as FindAndReplacePatternViewModel;
+
             foreach (BatchFileInfo item in files)
             {
-                FindAndReplacePatternViewState.Current.Files.Add(new PatternFileInfo(item));
+                viewModel?.Files.Add(new PatternFileInfo(item));
             }
         }
 

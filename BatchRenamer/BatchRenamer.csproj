@@ -112,29 +112,29 @@
     <Compile Include="..\XDLibrary\Xlfdll.Windows.Presentation\RelayCommand.cs">
       <Link>Base\Windows\Presentation\RelayCommand.cs</Link>
     </Compile>
-    <Compile Include="Commands\Patterns\NumberizePatternCommands.cs" />
-    <Compile Include="Commands\Patterns\InsertTextPatternCommands.cs" />
-    <Compile Include="Commands\Patterns\FindAndReplacePatternCommands.cs" />
-    <Compile Include="Commands\Patterns\WebMatchPatternCommands.cs" />
     <Compile Include="Converters\FileSizeValueConverter.cs" />
     <Compile Include="Data\Patterns\PatternFileInfo.cs" />
-    <Compile Include="States\Patterns\NumberizePatternViewState.cs" />
-    <Compile Include="States\Patterns\InsertTextPatternViewState.cs" />
-    <Compile Include="States\Patterns\FindAndReplacePatternViewState.cs" />
-    <Compile Include="States\Patterns\WebMatchPatternViewState.cs" />
+    <Compile Include="Helpers\DataHelper.cs" />
+    <Compile Include="Helpers\WorkHelper.cs" />
+    <Compile Include="ViewModels\Controls\ContextMenuViewModel.cs" />
+    <Compile Include="ViewModels\Controls\ToolBarViewModel.cs" />
+    <Compile Include="ViewModels\Patterns\NumberizePatternViewModel.cs" />
+    <Compile Include="ViewModels\Patterns\InsertTextPatternViewModel.cs" />
+    <Compile Include="ViewModels\Patterns\FindAndReplacePatternViewModel.cs" />
+    <Compile Include="ViewModels\Patterns\WebMatchPatternViewModel.cs" />
     <Compile Include="Data\Patterns\WebRegexMatch.cs" />
-    <Compile Include="Helpers\FileHelper.cs" />
-    <Compile Include="Helpers\Routines.cs" />
-    <Compile Include="Windows\Patterns\FindAndReplacePatternWindow.xaml.cs">
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\Windows\Patterns\FindAndReplacePatternWindow.xaml.cs">
       <DependentUpon>FindAndReplacePatternWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Patterns\InsertTextPatternWindow.xaml.cs">
+    <Compile Include="Views\Windows\Patterns\InsertTextPatternWindow.xaml.cs">
       <DependentUpon>InsertTextPatternWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Patterns\NumberizePatternWindow.xaml.cs">
+    <Compile Include="Views\Windows\Patterns\NumberizePatternWindow.xaml.cs">
       <DependentUpon>NumberizePatternWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Patterns\WebMatchPatternWindow.xaml.cs">
+    <Compile Include="Views\Windows\Patterns\WebMatchPatternWindow.xaml.cs">
       <DependentUpon>WebMatchPatternWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="..\XDLibrary\Xlfdll.Windows.Presentation\Dialogs\AboutWindow.xaml">
@@ -146,7 +146,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\MainWindow.xaml">
+    <Page Include="Views\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -154,14 +154,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands\PatternCommands.cs" />
-    <Compile Include="Commands\BatchCommands.cs" />
-    <Compile Include="Commands\ViewCommands.cs" />
     <Compile Include="Data\BatchFileInfo.cs" />
-    <Compile Include="States\AppState.cs" />
-    <Compile Include="Commands\GeneralCommands.cs" />
     <Compile Include="Helpers\LayoutHelper.cs" />
-    <Compile Include="Windows\MainWindow.xaml.cs">
+    <Compile Include="Views\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -181,19 +176,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Patterns\FindAndReplacePatternWindow.xaml">
+    <Page Include="Views\Windows\Patterns\FindAndReplacePatternWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Patterns\InsertTextPatternWindow.xaml">
+    <Page Include="Views\Windows\Patterns\InsertTextPatternWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Patterns\NumberizePatternWindow.xaml">
+    <Page Include="Views\Windows\Patterns\NumberizePatternWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Patterns\WebMatchPatternWindow.xaml">
+    <Page Include="Views\Windows\Patterns\WebMatchPatternWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

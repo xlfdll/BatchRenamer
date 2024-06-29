@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace BatchRenamer.Patterns
 {
@@ -13,25 +12,23 @@ namespace BatchRenamer.Patterns
         {
             InitializeComponent();
 
-            WebMatchPatternViewState viewState = new WebMatchPatternViewState();
+            WebMatchPatternViewModel viewModel
+                = new WebMatchPatternViewModel(App.MainWindow.DataContext as MainViewModel);
 
-            viewState.RequestClose += delegate { this.Close(); };
+            viewModel.RequestClose += delegate { this.Close(); };
 
-            this.DataContext = viewState;
+            this.DataContext = viewModel;
         }
 
         public WebMatchPatternWindow(IEnumerable<BatchFileInfo> files)
             : this()
         {
+            WebMatchPatternViewModel viewModel = this.DataContext as WebMatchPatternViewModel;
+
             foreach (BatchFileInfo item in files)
             {
-                WebMatchPatternViewState.Current.Files.Add(new PatternFileInfo(item));
+                viewModel?.Files.Add(new PatternFileInfo(item));
             }
-        }
-
-        private void FilesListView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            LayoutHelper.AdjustListViewColumns(sender as ListView);
         }
     }
 }

@@ -10,10 +10,8 @@ namespace BatchRenamer
         public BatchFileInfo(FileInfo fileInfo)
         {
             this.OriginalFileInfo = fileInfo;
-            this.OriginalFileName = Path.GetFileNameWithoutExtension(this.OriginalFileInfo.Name);
             this.NewFileName = this.OriginalFileName;
         }
-
         public BatchFileInfo(String fileName)
             : this(new FileInfo(fileName)) { }
 
@@ -27,6 +25,11 @@ namespace BatchRenamer
         {
             get
             {
+                if (String.IsNullOrEmpty(_originalFileName))
+                {
+                    _originalFileName = Path.GetFileNameWithoutExtension(this.OriginalFileInfo.Name);
+                }
+
                 return _originalFileName;
             }
             private set
@@ -63,14 +66,15 @@ namespace BatchRenamer
         public Int64 Size => this.OriginalFileInfo.Length;
         public String Directory => this.OriginalFileInfo.DirectoryName;
 
-        public String OriginalFullPath => this.OriginalFileInfo.FullName;
-        public String NewFullPath => Path.Combine(this.OriginalFileInfo.DirectoryName, this.NewFileName + this.Extension);
+        public String OriginalFilePath => this.OriginalFileInfo.FullName;
+        public String NewFilePath => Path.Combine(this.OriginalFileInfo.DirectoryName, this.NewFileName + this.Extension);
 
         public void CommitRename()
         {
             if (this.IsModified)
             {
-                this.OriginalFileInfo.MoveTo(this.NewFullPath);
+                this.OriginalFileInfo.MoveTo(this.NewFilePath);
+
                 this.OnPropertyChanged();
             }
 
