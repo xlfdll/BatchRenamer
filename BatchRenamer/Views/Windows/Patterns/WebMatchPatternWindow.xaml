@@ -64,7 +64,7 @@
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=WebRegex, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Button Grid.Row="2" Grid.Column="1" Content="_Retrieve" HorizontalAlignment="Right"
-                        Command="{x:Static local:WebMatchPatternCommands.RetrieveCommand}"/>
+                        Command="{Binding Path=RetrieveCommand}"/>
 
                 <TreeView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Path=Matches}" >
                     <TreeView.Resources>
@@ -79,10 +79,10 @@
         </GroupBox>
 
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-            <Button Command="{x:Static local:WebMatchPatternCommands.OpenCommand}">
+            <Button Command="{Binding Path=OpenCommand}">
                 <Image Source="{StaticResource WebMatchOpenPatternIcon}"/>
             </Button>
-            <Button Command="{x:Static local:WebMatchPatternCommands.SaveCommand}">
+            <Button Command="{Binding Path=SaveCommand}">
                 <Image Source="{StaticResource WebMatchSavePatternIcon}"/>
             </Button>
         </StackPanel>
@@ -145,10 +145,12 @@
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=FileNameReplacement, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Button Grid.Row="2" Grid.Column="1" Content="_Preview" HorizontalAlignment="Right"
-                        Command="{x:Static local:WebMatchPatternCommands.PreviewCommand}"/>
+                        Command="{Binding Path=PreviewCommand}"/>
 
-                <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding}"
-                          SizeChanged="FilesListView_SizeChanged">
+                <!-- No SizeChanged handler due to small ListView width -->
+                <!-- (First column width could be too small to display) -->
+                <ListView x:Name="FilesListView" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                          ItemsSource="{Binding Path=CollectionViewSource.View}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -167,17 +169,13 @@
                             <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
                         </GridView>
                     </ListView.View>
-                    <ListView.DataContext>
-                        <!-- CollectionViewSource needs to be in DataContext and bound to ItemsSource by {Binding} -->
-                        <CollectionViewSource Source="{Binding Path=Files}"/>
-                    </ListView.DataContext>
                 </ListView>
             </Grid>
         </GroupBox>
 
         <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="_Apply" IsDefault="True"
-                    Command="{x:Static local:WebMatchPatternCommands.ApplyCommand}"/>
+                    Command="{Binding Path=ApplyCommand}"/>
             <Button Content="_Cancel" IsCancel="True"/>
         </StackPanel>
     </Grid>

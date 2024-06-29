@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRenamer"
-        xmlns:pattern="clr-namespace:BatchRenamer.Patterns"
         xmlns:xdwpf="clr-namespace:Xlfdll.Windows.Presentation"
         mc:Ignorable="d"
         Title="Batch Renamer"
@@ -33,15 +32,17 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <ToolBar Grid.Row="0" ToolBarTray.IsLocked="True" Style="{StaticResource ModernToolBarStyle}">
+            <ToolBar Grid.Row="0" ToolBarTray.IsLocked="True"
+                     DataContext="{Binding Path=ToolBarViewModel}"
+                     Style="{StaticResource ModernToolBarStyle}">
                 <Separator/>
-                <Button Command="{x:Static local:BatchCommands.AddFileCommand}">
+                <Button Command="{Binding Path=AddFileCommand}">
                     <StackPanel>
                         <Image Source="{StaticResource AddFileIcon}"/>
                         <AccessText Text="Add _Files"/>
                     </StackPanel>
                 </Button>
-                <Button Command="{x:Static local:BatchCommands.AddFolderCommand}">
+                <Button Command="{Binding Path=AddFolderCommand}">
                     <StackPanel>
                         <Image Source="{StaticResource AddFolderIcon}"/>
                         <AccessText Text="Add Fol_der"/>
@@ -52,7 +53,7 @@
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=Files.Count}" Value="0">
+                                <DataTrigger Binding="{Binding Path=MainViewModel.Files.Count}" Value="0">
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -61,28 +62,28 @@
                     <Button.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="_Find and Replace..."
-                                      Command="{x:Static local:PatternCommands.OpenPatternCommand}"
+                                      Command="{Binding Path=OpenPatternCommand}"
                                       CommandParameter="FindAndReplace">
                                 <MenuItem.Icon>
                                     <Image Source="{StaticResource FindAndReplaceIcon}"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="_Insert Text..."
-                                      Command="{x:Static local:PatternCommands.OpenPatternCommand}"
+                                      Command="{Binding Path=OpenPatternCommand}"
                                       CommandParameter="InsertText">
                                 <MenuItem.Icon>
                                     <Image Source="{StaticResource TextInsertIcon}"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="_Numberize..."
-                                      Command="{x:Static local:PatternCommands.OpenPatternCommand}"
+                                      Command="{Binding Path=OpenPatternCommand}"
                                       CommandParameter="Numberize">
                                 <MenuItem.Icon>
                                     <Image Source="{StaticResource NumberIcon}"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="_Web Match..."
-                                      Command="{x:Static local:PatternCommands.OpenPatternCommand}"
+                                      Command="{Binding Path=OpenPatternCommand}"
                                       CommandParameter="WebMatch">
                                 <MenuItem.Icon>
                                     <Image Source="{StaticResource WebMatchIcon}"/>
@@ -96,11 +97,11 @@
                         <AccessText Text="Apply _Pattern >"/>
                     </StackPanel>
                 </Button>
-                <Button Command="{x:Static local:BatchCommands.BatchRenameCommand}">
+                <Button Command="{Binding Path=BatchRenameCommand}">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=Files.Count}" Value="0">
+                                <DataTrigger Binding="{Binding Path=MainViewModel.Files.Count}" Value="0">
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -113,7 +114,7 @@
                     </StackPanel>
                 </Button>
                 <Separator/>
-                <Button Command="{x:Static local:GeneralCommands.AboutCommand}">
+                <Button Command="{Binding Path=AboutCommand}">
                     <StackPanel>
                         <Image Source="{StaticResource AboutIcon}"/>
                         <AccessText Text="_About"/>
@@ -122,7 +123,7 @@
                 <Separator/>
             </ToolBar>
 
-            <ListView x:Name="BatchFileListView" Grid.Row="1" ItemsSource="{Binding}"
+            <ListView x:Name="BatchFileListView" Grid.Row="1" ItemsSource="{Binding Path=CollectionViewSource.View}"
                       SelectionChanged="BatchFileListView_SelectionChanged"
                       SizeChanged="BatchFileListView_SizeChanged"
                       KeyDown="BatchFileListView_KeyDown"
@@ -148,7 +149,9 @@
                         <Setter Property="IsSelected" Value="{Binding Path=IsSelected}"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 
-                        <Setter Property="xdwpf:DoubleClickBehavior.Command" Value="{x:Static local:ViewCommands.OpenCommand}"/>
+                        <!-- Need to refer Command outside item object -->
+                        <Setter Property="xdwpf:DoubleClickBehavior.Command"
+                                Value="{Binding Path=DataContext.ContextMenuViewModel.OpenCommand, ElementName=BatchFileListView}"/>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>
@@ -168,54 +171,48 @@
                         <GridViewColumn Header="Size" DisplayMemberBinding="{Binding Path=Size, Converter={local:FileSizeValueConverter}}"/>
                     </GridView>
                 </ListView.View>
-                <ListView.DataContext>
-                    <!-- CollectionViewSource needs to be in DataContext and bound to ItemsSource by {Binding} -->
-                    <CollectionViewSource Source="{Binding Path=Files}">
-                        <CollectionViewSource.GroupDescriptions>
-                            <PropertyGroupDescription PropertyName="Directory"/>
-                        </CollectionViewSource.GroupDescriptions>
-                    </CollectionViewSource>
-                </ListView.DataContext>
                 <ListView.ContextMenu>
-                    <ContextMenu>
+                    <!-- ContextMenu class is not part of the WPF visual tree -->
+                    <!-- See https://www.codeproject.com/Articles/162784/WPF-ContextMenu-Strikes-Again-DataContext-Not-Upda -->
+                    <ContextMenu DataContext="{Binding Path=PlacementTarget.DataContext.ContextMenuViewModel, RelativeSource={RelativeSource Self}}">
                         <MenuItem Header="Open"
-                                  Command="{x:Static local:ViewCommands.OpenCommand}"/>
+                                  Command="{Binding Path=OpenCommand}"/>
                         <MenuItem Header="Open Containing Folder"
-                                  Command="{x:Static local:ViewCommands.OpenFolderCommand}"/>
+                                  Command="{Binding Path=OpenFolderCommand}"/>
                         <Separator/>
                         <MenuItem Header="Copy New File Name"
-                                  Command="{x:Static local:ViewCommands.CopyCommand}"
+                                  Command="{Binding Path=CopyCommand}"
                                   CommandParameter="NewFileName"/>
                         <MenuItem Header="Copy Original File Name"
-                                  Command="{x:Static local:ViewCommands.CopyCommand}"
+                                  Command="{Binding Path=CopyCommand}"
                                   CommandParameter="OriginalFileName"/>
                         <MenuItem Header="Copy New Full Path"
-                                  Command="{x:Static local:ViewCommands.CopyCommand}"
-                                  CommandParameter="NewFullPath"/>
+                                  Command="{Binding Path=CopyCommand}"
+                                  CommandParameter="NewFilePath"/>
                         <MenuItem Header="Copy Original Full Path"
-                                  Command="{x:Static local:ViewCommands.CopyCommand}"
-                                  CommandParameter="OriginalFullPath"/>
+                                  Command="{Binding Path=CopyCommand}"
+                                  CommandParameter="OriginalFilePath"/>
                         <MenuItem Header="Paste"
-                                  Command="{x:Static local:ViewCommands.PasteCommand}"/>
+                                  Command="{Binding Path=PasteCommand}"/>
                         <Separator/>
                         <MenuItem Header="Revert Selected"
-                                  Command="{x:Static local:ViewCommands.RevertSelectedCommand}"/>
+                                  Command="{Binding Path=RevertSelectedCommand}"/>
                         <MenuItem Header="Remove Selected"
-                                  Command="{x:Static local:ViewCommands.RemoveSelectedCommand}"/>
+                                  Command="{Binding Path=RemoveSelectedCommand}"/>
                         <Separator/>
                         <MenuItem Header="Select All"
-                                  Command="{x:Static local:ViewCommands.SelectAllCommand}"/>
+                                  Command="{Binding Path=SelectAllCommand}"/>
                         <MenuItem Header="Deselect All"
-                                  Command="{x:Static local:ViewCommands.DeselectAllCommand}"/>
+                                  Command="{Binding Path=DeselectAllCommand}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
                 <ListView.InputBindings>
                     <KeyBinding Gesture="Ctrl+C"
-                                Command="{x:Static local:ViewCommands.CopyCommand}"
+                                Command="{Binding Path=ContextMenuViewModel.CopyCommand}"
                                 CommandParameter="NewFileName"/>
-                    <KeyBinding Gesture="Ctrl+V" Command="{x:Static local:ViewCommands.PasteCommand}"/>
-                    <KeyBinding Gesture="Ctrl+A" Command="{x:Static local:ViewCommands.SelectAllCommand}"/>
-                    <KeyBinding Gesture="Delete" Command="{x:Static local:ViewCommands.RemoveSelectedCommand}"/>
+                    <KeyBinding Gesture="Ctrl+V" Command="{Binding Path=ContextMenuViewModel.PasteCommand}"/>
+                    <KeyBinding Gesture="Ctrl+A" Command="{Binding Path=ContextMenuViewModel.SelectAllCommand}"/>
+                    <KeyBinding Gesture="Delete" Command="{Binding Path=ContextMenuViewModel.RemoveSelectedCommand}"/>
                 </ListView.InputBindings>
             </ListView>
         </Grid>

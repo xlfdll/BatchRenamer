@@ -83,9 +83,9 @@
         </ItemsControl>
 
         <Button Grid.Row="1" Content="_Preview" HorizontalAlignment="Right"
-                Command="{x:Static local:NumberizePatternCommands.PreviewCommand}"/>
+                Command="{Binding Path=PreviewCommand}"/>
 
-        <ListView Grid.Row="2" ItemsSource="{Binding}"
+        <ListView Grid.Row="2" ItemsSource="{Binding Path=CollectionViewSource.View}"
                   SizeChanged="FilesListView_SizeChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -105,14 +105,10 @@
                     <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
                 </GridView>
             </ListView.View>
-            <ListView.DataContext>
-                <!-- CollectionViewSource needs to be in DataContext and bound to ItemsSource by {Binding} -->
-                <CollectionViewSource Source="{Binding Path=Files}"/>
-            </ListView.DataContext>
         </ListView>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="_Apply" IsDefault="True" Command="{x:Static local:NumberizePatternCommands.ApplyCommand}"/>
+            <Button Content="_Apply" IsDefault="True" Command="{Binding Path=ApplyCommand}"/>
             <Button Content="_Cancel" IsCancel="True"/>
         </StackPanel>
     </Grid>

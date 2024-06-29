@@ -10,23 +10,29 @@ using Xlfdll.Windows.Presentation;
 
 namespace BatchRenamer
 {
-    public static class ViewCommands
+    public class ContextMenuViewModel : ViewModelBase
     {
-        static ViewCommands()
+        public ContextMenuViewModel(MainViewModel mainViewModel)
         {
-            ViewCommands.OpenCommand = new RelayCommand<Object>
+            this.MainViewModel = mainViewModel;
+        }
+
+        public MainViewModel MainViewModel { get; }
+
+        public RelayCommand<Object> OpenCommand
+            => new RelayCommand<Object>
             (
                 delegate
                 {
                     try
                     {
-                        ProcessHelper.Start(AppState.Current.SelectedFiles[0].OriginalFullPath, true);
+                        ProcessHelper.Start(this.MainViewModel.SelectedFiles[0].OriginalFilePath, true);
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(App.Current.MainWindow,
                             $"An error occurred when opening the file {Environment.NewLine}" +
-                            $"{AppState.Current.SelectedFiles[0].OriginalFullPath}" +
+                            $"{this.MainViewModel.SelectedFiles[0].OriginalFilePath}" +
                             $"{Environment.NewLine}" +
                             $"{Environment.NewLine}" +
                             $"{ex.Message}",
@@ -37,29 +43,31 @@ namespace BatchRenamer
                 },
                 delegate
                 {
-                    return AppState.Current?.SelectedFiles.Count == 1;
+                    return this.MainViewModel.SelectedFiles.Count == 1;
                 }
             );
 
-            ViewCommands.OpenFolderCommand = new RelayCommand<Object>
+        public RelayCommand<Object> OpenFolderCommand
+            => new RelayCommand<Object>
             (
                 delegate
                 {
-                    ProcessHelper.Start("explorer.exe", $"/select,\"{AppState.Current.SelectedFiles[0].OriginalFullPath}\"");
+                    ProcessHelper.Start("explorer.exe", $"/select,\"{this.MainViewModel.SelectedFiles[0].OriginalFilePath}\"");
                 },
                 delegate
                 {
-                    return AppState.Current?.SelectedFiles.Count == 1;
+                    return this.MainViewModel.SelectedFiles.Count == 1;
                 }
             );
 
-            ViewCommands.CopyCommand = new RelayCommand<String>
+        public RelayCommand<String> CopyCommand
+            => new RelayCommand<String>
             (
                 (parameter) =>
                 {
                     StringBuilder sb = new StringBuilder();
 
-                    AppState.Current.SelectedFiles.ForEach
+                    this.MainViewModel.SelectedFiles.ForEach
                     (
                         (item) =>
                         {
@@ -77,15 +85,15 @@ namespace BatchRenamer
 
                                         break;
                                     }
-                                case "NewFullPath":
+                                case "NewFilePath":
                                     {
-                                        sb.AppendLine(item.NewFullPath);
+                                        sb.AppendLine(item.NewFilePath);
 
                                         break;
                                     }
-                                case "OriginalFullPath":
+                                case "OriginalFilePath":
                                     {
-                                        sb.AppendLine(item.OriginalFullPath);
+                                        sb.AppendLine(item.OriginalFilePath);
 
                                         break;
                                     }
@@ -101,11 +109,12 @@ namespace BatchRenamer
                 },
                 (parameter) =>
                 {
-                    return AppState.Current?.SelectedFiles.Count > 0;
+                    return this.MainViewModel.SelectedFiles.Count > 0;
                 }
             );
 
-            ViewCommands.PasteCommand = new RelayCommand<Object>
+        public RelayCommand<Object> PasteCommand
+            => new RelayCommand<Object>
             (
                 delegate
                 {
@@ -114,13 +123,13 @@ namespace BatchRenamer
                         Int32 i = 0;
                         String line = reader.ReadLine();
 
-                        while (line != null && i < AppState.Current.SelectedFiles.Count)
+                        while (line != null && i < this.MainViewModel.SelectedFiles.Count)
                         {
                             line = line.Trim('"').Trim();
 
                             if (!String.IsNullOrEmpty(line))
                             {
-                                AppState.Current.SelectedFiles[i++].NewFileName = Path.GetFileNameWithoutExtension(line);
+                                this.MainViewModel.SelectedFiles[i++].NewFileName = Path.GetFileNameWithoutExtension(line);
                             }
 
                             line = reader.ReadLine();
@@ -129,76 +138,70 @@ namespace BatchRenamer
                 },
                 delegate
                 {
-                    return AppState.Current?.SelectedFiles.Count > 0;
+                    return this.MainViewModel.SelectedFiles.Count > 0;
                 }
             );
 
-            ViewCommands.RevertSelectedCommand = new RelayCommand<Object>
+        public RelayCommand<Object> RevertSelectedCommand
+            => new RelayCommand<Object>
             (
                 delegate
                 {
-                    AppState.Current.SelectedFiles.ForEach
+                    this.MainViewModel.SelectedFiles.ForEach
                     (
                         (item) => { item.NewFileName = item.OriginalFileName; }
                     );
                 },
                 delegate
                 {
-                    return AppState.Current?.SelectedFiles.Count > 0;
+                    return this.MainViewModel.SelectedFiles.Count > 0;
                 }
             );
 
-            ViewCommands.RemoveSelectedCommand = new RelayCommand<Object>
+        public RelayCommand<Object> RemoveSelectedCommand
+            => new RelayCommand<Object>
             (
                 delegate
                 {
-                    AppState.Current.Files.RemoveRange(AppState.Current.SelectedFiles);
+                    this.MainViewModel.Files.RemoveRange(this.MainViewModel.SelectedFiles);
                 },
                 delegate
                 {
-                    return AppState.Current?.SelectedFiles.Count > 0;
+                    return this.MainViewModel.SelectedFiles.Count > 0;
                 }
             );
 
-            ViewCommands.SelectAllCommand = new RelayCommand<Object>
+        public RelayCommand<Object> SelectAllCommand
+            => new RelayCommand<Object>
             (
                 delegate
                 {
-                    AppState.Current.Files.ForEach
+                    this.MainViewModel.Files.ForEach
                     (
                         (item) => { item.IsSelected = true; }
                     );
                 },
                 delegate
                 {
-                    return AppState.Current?.Files.Count > 0
-                        && AppState.Current.SelectedFiles.Count != AppState.Current.Files.Count();
+                    return this.MainViewModel.Files.Count > 0
+                        && this.MainViewModel.SelectedFiles.Count != this.MainViewModel.Files.Count();
                 }
             );
 
-            ViewCommands.DeselectAllCommand = new RelayCommand<Object>
+        public RelayCommand<Object> DeselectAllCommand
+            => new RelayCommand<Object>
             (
                 delegate
                 {
-                    AppState.Current.Files.ForEach
+                    this.MainViewModel.Files.ForEach
                     (
                         (item) => { item.IsSelected = false; }
                     );
                 },
                 delegate
                 {
-                    return AppState.Current?.SelectedFiles.Count > 0;
+                    return this.MainViewModel.SelectedFiles.Count > 0;
                 }
             );
-        }
-
-        public static RelayCommand<Object> OpenCommand { get; }
-        public static RelayCommand<Object> OpenFolderCommand { get; }
-        public static RelayCommand<String> CopyCommand { get; }
-        public static RelayCommand<Object> PasteCommand { get; }
-        public static RelayCommand<Object> RevertSelectedCommand { get; }
-        public static RelayCommand<Object> RemoveSelectedCommand { get; }
-        public static RelayCommand<Object> SelectAllCommand { get; }
-        public static RelayCommand<Object> DeselectAllCommand { get; }
     }
 }

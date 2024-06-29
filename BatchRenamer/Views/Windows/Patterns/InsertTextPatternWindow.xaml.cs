@@ -14,19 +14,22 @@ namespace BatchRenamer.Patterns
         {
             InitializeComponent();
 
-            InsertTextPatternViewState viewState = new InsertTextPatternViewState();
+            InsertTextPatternViewModel viewModel
+                = new InsertTextPatternViewModel(App.MainWindow.DataContext as MainViewModel);
 
-            viewState.RequestClose += delegate { this.Close(); };
+            viewModel.RequestClose += delegate { this.Close(); };
 
-            this.DataContext = viewState;
+            this.DataContext = viewModel;
         }
 
         public InsertTextPatternWindow(IEnumerable<BatchFileInfo> files)
             : this()
         {
+            InsertTextPatternViewModel viewModel = this.DataContext as InsertTextPatternViewModel;
+
             foreach (BatchFileInfo item in files)
             {
-                InsertTextPatternViewState.Current.Files.Add(new PatternFileInfo(item));
+                viewModel?.Files.Add(new PatternFileInfo(item));
             }
         }
 
@@ -34,9 +37,11 @@ namespace BatchRenamer.Patterns
         {
             // This event may be fired before DataContext is set
 
-            if (InsertTextPatternViewState.Current != null)
+            InsertTextPatternViewModel viewModel = this.DataContext as InsertTextPatternViewModel;
+
+            if (viewModel != null)
             {
-                InsertTextPatternViewState.Current.Position = Convert.ToInt32(PositionNumericUpDown.Value);
+                viewModel.Position = Convert.ToInt32(PositionNumericUpDown.Value);
             }
         }
 
