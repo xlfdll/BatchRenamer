@@ -13,12 +13,113 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.Resources>
+        <ToolBar Grid.Row="0" ToolBarTray.IsLocked="True"
+                 DataContext="{Binding Path=ToolBarViewModel}">
+            <ToolBar.Style>
+                <Style TargetType="ToolBar" BasedOn="{StaticResource ModernToolBarStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsBusy}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ToolBar.Style>
+
+            <Separator/>
+            <Button Command="{Binding Path=AddFileCommand}">
+                <StackPanel>
+                    <Image Source="{StaticResource AddFileIcon}"/>
+                    <AccessText Text="Add _Files"/>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding Path=AddFolderCommand}">
+                <StackPanel>
+                    <Image Source="{StaticResource AddFolderIcon}"/>
+                    <AccessText Text="Add Fol_der"/>
+                </StackPanel>
+            </Button>
+            <Separator/>
+            <Button ContextMenuService.IsEnabled="False" Click="ApplyPatternButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=MainViewModel.Files.Count}" Value="0">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="_Find and Replace..."
+                                  Command="{Binding Path=OpenPatternCommand}"
+                                  CommandParameter="FindAndReplace">
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource FindAndReplaceIcon}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Insert Text..."
+                                  Command="{Binding Path=OpenPatternCommand}"
+                                  CommandParameter="InsertText">
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource TextInsertIcon}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Numberize..."
+                                  Command="{Binding Path=OpenPatternCommand}"
+                                  CommandParameter="Numberize">
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource NumberIcon}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Web Match..."
+                                  Command="{Binding Path=OpenPatternCommand}"
+                                  CommandParameter="WebMatch">
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource WebMatchIcon}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </Button.ContextMenu>
+
+                <StackPanel>
+                    <Image Source="{StaticResource ApplyPatternIcon}"/>
+                    <AccessText Text="Apply _Pattern >"/>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding Path=BatchRenameCommand}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=MainViewModel.Files.Count}" Value="0">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <StackPanel>
+                    <Image Source="{StaticResource BatchRenameIcon}"/>
+                    <AccessText Text="Batch _Rename"/>
+                </StackPanel>
+            </Button>
+            <Separator/>
+            <Button Command="{Binding Path=AboutCommand}">
+                <StackPanel>
+                    <Image Source="{StaticResource AboutIcon}"/>
+                    <AccessText Text="_About"/>
+                </StackPanel>
+            </Button>
+            <Separator/>
+        </ToolBar>
+
+        <Grid Grid.Row="1">
+            <Grid.Style>
                 <Style TargetType="Grid">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Path=IsBusy}" Value="True">
@@ -26,104 +127,13 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </Grid.Resources>
+            </Grid.Style>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <ToolBar Grid.Row="0" ToolBarTray.IsLocked="True"
-                     DataContext="{Binding Path=ToolBarViewModel}"
-                     Style="{StaticResource ModernToolBarStyle}">
-                <Separator/>
-                <Button Command="{Binding Path=AddFileCommand}">
-                    <StackPanel>
-                        <Image Source="{StaticResource AddFileIcon}"/>
-                        <AccessText Text="Add _Files"/>
-                    </StackPanel>
-                </Button>
-                <Button Command="{Binding Path=AddFolderCommand}">
-                    <StackPanel>
-                        <Image Source="{StaticResource AddFolderIcon}"/>
-                        <AccessText Text="Add Fol_der"/>
-                    </StackPanel>
-                </Button>
-                <Separator/>
-                <Button ContextMenuService.IsEnabled="False" Click="ApplyPatternButton_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=MainViewModel.Files.Count}" Value="0">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                    <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="_Find and Replace..."
-                                      Command="{Binding Path=OpenPatternCommand}"
-                                      CommandParameter="FindAndReplace">
-                                <MenuItem.Icon>
-                                    <Image Source="{StaticResource FindAndReplaceIcon}"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="_Insert Text..."
-                                      Command="{Binding Path=OpenPatternCommand}"
-                                      CommandParameter="InsertText">
-                                <MenuItem.Icon>
-                                    <Image Source="{StaticResource TextInsertIcon}"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="_Numberize..."
-                                      Command="{Binding Path=OpenPatternCommand}"
-                                      CommandParameter="Numberize">
-                                <MenuItem.Icon>
-                                    <Image Source="{StaticResource NumberIcon}"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="_Web Match..."
-                                      Command="{Binding Path=OpenPatternCommand}"
-                                      CommandParameter="WebMatch">
-                                <MenuItem.Icon>
-                                    <Image Source="{StaticResource WebMatchIcon}"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-
-                    <StackPanel>
-                        <Image Source="{StaticResource ApplyPatternIcon}"/>
-                        <AccessText Text="Apply _Pattern >"/>
-                    </StackPanel>
-                </Button>
-                <Button Command="{Binding Path=BatchRenameCommand}">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=MainViewModel.Files.Count}" Value="0">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-
-                    <StackPanel>
-                        <Image Source="{StaticResource BatchRenameIcon}"/>
-                        <AccessText Text="Batch _Rename"/>
-                    </StackPanel>
-                </Button>
-                <Separator/>
-                <Button Command="{Binding Path=AboutCommand}">
-                    <StackPanel>
-                        <Image Source="{StaticResource AboutIcon}"/>
-                        <AccessText Text="_About"/>
-                    </StackPanel>
-                </Button>
-                <Separator/>
-            </ToolBar>
-
-            <ListView x:Name="BatchFileListView" Grid.Row="1" ItemsSource="{Binding Path=CollectionViewSource.View}"
+            <ListView x:Name="BatchFileListView" Grid.Row="0"
+                      ItemsSource="{Binding Path=CollectionViewSource.View}"
                       SelectionChanged="BatchFileListView_SelectionChanged"
                       SizeChanged="BatchFileListView_SizeChanged"
                       KeyDown="BatchFileListView_KeyDown"
@@ -217,7 +227,7 @@
             </ListView>
         </Grid>
 
-        <StatusBar Grid.Row="1" Style="{StaticResource ModernStatusBarStyle}">
+        <StatusBar Grid.Row="2" Style="{StaticResource ModernStatusBarStyle}">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
