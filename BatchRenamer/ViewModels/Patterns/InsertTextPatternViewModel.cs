@@ -72,7 +72,7 @@ namespace BatchRenamer.Patterns
 
                     foreach (PatternFileInfo item in this.Files)
                     {
-                        this.MainViewModel.Files.First(f => f.OriginalFilePath == item.FileInfo.OriginalFilePath).NewFileName = item.PreviewFileName;
+                        item.FileInfo.NewFileName = item.PreviewFileName;
                     }
 
                     this.Close();

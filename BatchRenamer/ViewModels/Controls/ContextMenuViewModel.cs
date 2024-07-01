@@ -163,7 +163,7 @@ namespace BatchRenamer
             (
                 delegate
                 {
-                    this.MainViewModel.Files.RemoveRange(this.MainViewModel.SelectedFiles);
+                    this.MainViewModel.RemoveFiles(this.MainViewModel.SelectedFiles);
                 },
                 delegate
                 {
