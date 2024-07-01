@@ -28,7 +28,6 @@ namespace BatchRenamer.Patterns
         private String _replaceWith;
         private Boolean _matchCase;
         private Boolean _useRegex;
-        private CollectionViewSource _collectionViewSource;
 
         public String FindWhat
         {
@@ -52,6 +51,8 @@ namespace BatchRenamer.Patterns
         }
 
         public ObservableCollection<PatternFileInfo> Files { get; }
+
+        private CollectionViewSource _collectionViewSource;
 
         public CollectionViewSource CollectionViewSource
         {

@@ -27,7 +27,6 @@ namespace BatchRenamer
 
         private Boolean _isBusy;
         private String _status;
-        private CollectionViewSource _collectionViewSource;
 
         public Boolean IsBusy
         {
@@ -42,6 +41,8 @@ namespace BatchRenamer
 
         public ObservableCollection<BatchFileInfo> Files { get; }
         public ObservableCollection<BatchFileInfo> SelectedFiles { get; }
+
+        private CollectionViewSource _collectionViewSource;
 
         public CollectionViewSource CollectionViewSource
         {
