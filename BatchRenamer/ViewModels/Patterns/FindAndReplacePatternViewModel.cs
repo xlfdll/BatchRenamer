@@ -10,7 +10,7 @@ using Xlfdll.Windows.Presentation.Dialogs;
 
 namespace BatchRenamer.Patterns
 {
-    public class FindAndReplacePatternViewModel : ObservableObject
+    public class FindAndReplacePatternViewModel : ViewModelBase
     {
         public FindAndReplacePatternViewModel(MainViewModel mainViewModel)
         {

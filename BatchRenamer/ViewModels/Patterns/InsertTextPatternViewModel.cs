@@ -3,12 +3,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
 
-using Xlfdll;
 using Xlfdll.Windows.Presentation;
 
 namespace BatchRenamer.Patterns
 {
-    public class InsertTextPatternViewModel : ObservableObject
+    public class InsertTextPatternViewModel : ViewModelBase
     {
         public InsertTextPatternViewModel(MainViewModel mainViewModel)
         {
