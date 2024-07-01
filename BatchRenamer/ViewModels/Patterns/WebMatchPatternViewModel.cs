@@ -46,7 +46,6 @@ namespace BatchRenamer.Patterns
         private String _fileNameRegex;
         private String _fileNameReplacement;
         private Int32 _selectedGroupIndex;
-        private CollectionViewSource _collectionViewSource;
 
         public Boolean IsReady
         {
@@ -82,6 +81,8 @@ namespace BatchRenamer.Patterns
         public ObservableCollection<PatternFileInfo> Files { get; }
         public ObservableCollection<String> Groups { get; }
         public ObservableCollection<WebRegexMatch> Matches { get; }
+
+        private CollectionViewSource _collectionViewSource;
 
         public CollectionViewSource CollectionViewSource
         {

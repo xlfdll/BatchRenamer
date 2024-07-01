@@ -21,7 +21,6 @@ namespace BatchRenamer.Patterns
         public MainViewModel MainViewModel { get; }
 
         private String _text;
-        private CollectionViewSource _collectionViewSource;
 
         public String Text
         {
@@ -30,6 +29,8 @@ namespace BatchRenamer.Patterns
         }
 
         public ObservableCollection<PatternFileInfo> Files { get; }
+
+        private CollectionViewSource _collectionViewSource;
 
         public CollectionViewSource CollectionViewSource
         {

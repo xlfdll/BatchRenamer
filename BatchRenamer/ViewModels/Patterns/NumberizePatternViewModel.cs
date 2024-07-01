@@ -25,7 +25,6 @@ namespace BatchRenamer.Patterns
 
         private Boolean _isNumber;
         private String _numberFormat;
-        private CollectionViewSource _collectionViewSource;
 
         public Boolean IsNumber
         {
@@ -39,6 +38,8 @@ namespace BatchRenamer.Patterns
         }
 
         public ObservableCollection<PatternFileInfo> Files { get; }
+
+        private CollectionViewSource _collectionViewSource;
 
         public CollectionViewSource CollectionViewSource
         {
