@@ -36,7 +36,7 @@ namespace BatchRenamer
 
                     if (dlg.ShowDialog() == true)
                     {
-                        this.MainViewModel.AddNewFiles(dlg.FileNames);
+                        this.MainViewModel.AddFiles(dlg.FileNames);
                     }
                 }
             );
@@ -54,7 +54,7 @@ namespace BatchRenamer
                     {
                         if (dlg.ShowDialog() == WinForms.DialogResult.OK)
                         {
-                            this.MainViewModel.AddNewFiles(Directory.GetFiles(dlg.SelectedPath));
+                            this.MainViewModel.AddFiles(Directory.GetFiles(dlg.SelectedPath));
                         }
                     }
                 }

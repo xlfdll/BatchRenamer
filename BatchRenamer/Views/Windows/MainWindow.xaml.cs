@@ -66,7 +66,7 @@ namespace BatchRenamer
             {
                 MainViewModel mainViewModel = this.DataContext as MainViewModel;
 
-                mainViewModel?.AddNewFiles(files);
+                mainViewModel?.AddFiles(files);
             }
         }
 

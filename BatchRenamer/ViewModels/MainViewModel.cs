@@ -20,6 +20,8 @@ namespace BatchRenamer
 
             this.Files = new ObservableCollection<BatchFileInfo>();
             this.SelectedFiles = new ObservableCollection<BatchFileInfo>();
+
+            this.FileHashSet = new HashSet<String>();
         }
 
         public ToolBarViewModel ToolBarViewModel { get; }
@@ -57,9 +59,9 @@ namespace BatchRenamer
             }
         }
 
-        public void AddNewFiles(IEnumerable<String> fileNames)
+        public void AddFiles(IEnumerable<String> fileNames)
         {
-            List<String> files = new List<String>();
+            List<String> checkedFileNames = new List<String>();
 
             // Manually check original file name here to avoid broken item reference issue when removing files later on
             foreach (String fileName in fileNames)
@@ -68,20 +70,31 @@ namespace BatchRenamer
 
                 if (attributes.HasFlag(FileAttributes.Directory))
                 {
-                    files.AddRange(Directory.GetFiles(fileName));
+                    checkedFileNames.AddRange(Directory.GetFiles(fileName));
                 }
                 else
                 {
-                    files.Add(fileName);
+                    checkedFileNames.Add(fileName);
                 }
             }
 
-            foreach (String file in files)
+            foreach (String fileName in checkedFileNames)
             {
-                if (this.Files.Where(f => (f.OriginalFilePath == file)).Count() == 0)
+                if (!this.FileHashSet.Contains(fileName))
                 {
-                    this.Files.Add(new BatchFileInfo(file));
+                    this.FileHashSet.Add(fileName);
+                    this.Files.Add(new BatchFileInfo(fileName));
                 }
+            }
+        }
+
+        public void RemoveFiles(IEnumerable<BatchFileInfo> fileInfos)
+        {
+            this.Files.RemoveRange(fileInfos);
+
+            foreach (BatchFileInfo fileInfo in fileInfos)
+            {
+                this.FileHashSet.Remove(fileInfo.OriginalFilePath);
             }
         }
 
@@ -95,5 +108,7 @@ namespace BatchRenamer
         {
             this.Status = text;
         }
+
+        private HashSet<String> FileHashSet { get; }
     }
 }
