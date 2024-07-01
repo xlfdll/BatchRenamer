@@ -3,13 +3,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
 
-using Xlfdll;
 using Xlfdll.Windows.Presentation;
 using Xlfdll.Windows.Presentation.Dialogs;
 
 namespace BatchRenamer.Patterns
 {
-    public class NumberizePatternViewModel : ObservableObject
+    public class NumberizePatternViewModel : ViewModelBase
     {
         public NumberizePatternViewModel(MainViewModel mainViewModel)
         {

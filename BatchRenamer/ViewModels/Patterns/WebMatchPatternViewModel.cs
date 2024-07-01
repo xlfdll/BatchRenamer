@@ -12,14 +12,13 @@ using System.Xml;
 
 using Microsoft.Win32;
 
-using Xlfdll;
 using Xlfdll.Text;
 using Xlfdll.Windows.Presentation;
 using Xlfdll.Windows.Presentation.Dialogs;
 
 namespace BatchRenamer.Patterns
 {
-    public class WebMatchPatternViewModel : ObservableObject
+    public class WebMatchPatternViewModel : ViewModelBase
     {
         public WebMatchPatternViewModel(MainViewModel mainViewModel)
         {
