@@ -23,7 +23,7 @@
             <ToolBar.Style>
                 <Style TargetType="ToolBar" BasedOn="{StaticResource ModernToolBarStyle}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=IsBusy}" Value="True">
+                        <DataTrigger Binding="{Binding Path=MainViewModel.IsBusy}" Value="True">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                     </Style.Triggers>
