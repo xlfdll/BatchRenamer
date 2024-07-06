@@ -80,5 +80,14 @@ namespace BatchRenamer
 
             this.OriginalFileName = this.NewFileName;
         }
+
+        public BatchFileInfo Clone()
+        {
+            return new BatchFileInfo(this.OriginalFileInfo)
+            {
+                NewFileName = String.Copy(this.NewFileName),
+                IsSelected = this.IsSelected,
+            };
+        }
     }
 }

@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Data;
 
+using BatchRenamer.Patterns;
+
 using Xlfdll.Collections;
 
 namespace BatchRenamer
@@ -20,8 +22,9 @@ namespace BatchRenamer
 
             this.Files = new ObservableCollection<BatchFileInfo>();
             this.SelectedFiles = new ObservableCollection<BatchFileInfo>();
+            this.Checkpoints = new ObservableCollection<Checkpoint>();
 
-            this.FileHashSet = new HashSet<String>();
+            this.FileDictionary = new Dictionary<String, BatchFileInfo>();
         }
 
         public ToolBarViewModel ToolBarViewModel { get; }
@@ -43,6 +46,7 @@ namespace BatchRenamer
 
         public ObservableCollection<BatchFileInfo> Files { get; }
         public ObservableCollection<BatchFileInfo> SelectedFiles { get; }
+        public ObservableCollection<Checkpoint> Checkpoints { get; }
 
         private CollectionViewSource _collectionViewSource;
 
@@ -80,10 +84,12 @@ namespace BatchRenamer
 
             foreach (String fileName in checkedFileNames)
             {
-                if (!this.FileHashSet.Contains(fileName))
+                if (!this.FileDictionary.ContainsKey(fileName))
                 {
-                    this.FileHashSet.Add(fileName);
-                    this.Files.Add(new BatchFileInfo(fileName));
+                    BatchFileInfo batchFileInfo = new BatchFileInfo(fileName);
+
+                    this.FileDictionary.Add(fileName, batchFileInfo);
+                    this.Files.Add(batchFileInfo);
                 }
             }
         }
@@ -94,8 +100,18 @@ namespace BatchRenamer
 
             foreach (BatchFileInfo fileInfo in fileInfos)
             {
-                this.FileHashSet.Remove(fileInfo.OriginalFilePath);
+                this.FileDictionary.Remove(fileInfo.OriginalFilePath);
             }
+        }
+
+        public void SaveCheckpoint(Checkpoint checkpoint)
+        {
+            this.Checkpoints.Add(checkpoint);
+        }
+
+        public void UndoCheckpoint()
+        {
+            
         }
 
         public void UpdateSelection()
@@ -109,6 +125,6 @@ namespace BatchRenamer
             this.Status = text;
         }
 
-        private HashSet<String> FileHashSet { get; }
+        private Dictionary<String, BatchFileInfo> FileDictionary { get; }
     }
 }

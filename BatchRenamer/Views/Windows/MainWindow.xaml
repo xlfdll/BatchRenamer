@@ -128,11 +128,12 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-            <ListView x:Name="BatchFileListView" Grid.Row="0"
+            <ListView x:Name="BatchFileListView" Grid.Column="0"
                       ItemsSource="{Binding Path=CollectionViewSource.View}"
                       SelectionChanged="BatchFileListView_SelectionChanged"
                       SizeChanged="BatchFileListView_SizeChanged"
@@ -225,6 +226,24 @@
                     <KeyBinding Gesture="Delete" Command="{Binding Path=ContextMenuViewModel.RemoveSelectedCommand}"/>
                 </ListView.InputBindings>
             </ListView>
+            <Expander Grid.Column="1" ExpandDirection="Right">
+                <Expander.Style>
+                    <Style TargetType="Expander">
+                        <Setter Property="Header">
+                            <Setter.Value>
+                                <!-- Header content need to be in Style, or Trigger cannot be activated -->
+                                <TextBlock Text="Rename Steps">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="90"/>
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Expander.Style>
+
+                <ListBox/>
+            </Expander>
         </Grid>
 
         <StatusBar Grid.Row="2" Style="{StaticResource ModernStatusBarStyle}">

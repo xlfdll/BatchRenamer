@@ -113,6 +113,7 @@
       <Link>Base\Windows\Presentation\RelayCommand.cs</Link>
     </Compile>
     <Compile Include="Converters\FileSizeValueConverter.cs" />
+    <Compile Include="Data\Checkpoint.cs" />
     <Compile Include="Data\Patterns\PatternFileInfo.cs" />
     <Compile Include="Helpers\DataHelper.cs" />
     <Compile Include="Helpers\WorkHelper.cs" />
