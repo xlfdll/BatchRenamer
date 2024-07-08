@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
-using System.Windows.Data;
 
 using Xlfdll;
 using Xlfdll.Windows.Presentation;
@@ -9,19 +7,14 @@ using Xlfdll.Windows.Presentation.Dialogs;
 
 namespace BatchRenamer.Patterns
 {
-    public class FindAndReplacePatternViewModel : ViewModelBase
+    public class FindAndReplacePatternViewModel : PatternViewModelBase
     {
         public FindAndReplacePatternViewModel(MainViewModel mainViewModel)
+            : base(mainViewModel)
         {
-            this.MainViewModel = mainViewModel;
-
             this.FindWhat = String.Empty;
             this.ReplaceWith = String.Empty;
-
-            this.Files = new ObservableCollection<PatternFileInfo>();
         }
-
-        public MainViewModel MainViewModel { get; }
 
         private String _findWhat;
         private String _replaceWith;
@@ -47,23 +40,6 @@ namespace BatchRenamer.Patterns
         {
             get { return _useRegex; }
             set { SetField(ref _useRegex, value); }
-        }
-
-        public ObservableCollection<PatternFileInfo> Files { get; }
-
-        private CollectionViewSource _collectionViewSource;
-
-        public CollectionViewSource CollectionViewSource
-        {
-            get
-            {
-                if (_collectionViewSource == null)
-                {
-                    _collectionViewSource = DataHelper.GetCollectionViewSource(this.Files);
-                }
-
-                return _collectionViewSource;
-            }
         }
 
         public RelayCommand<Object> PreviewCommand
@@ -129,15 +105,6 @@ namespace BatchRenamer.Patterns
                     return !String.IsNullOrEmpty(this?.FindWhat);
                 }
             );
-
-        public event Action RequestClose;
-
-        public void Close()
-        {
-            this.RequestClose?.Invoke();
-        }
-
-        public Boolean IsError { get; set; }
 
         public const String Title = "Find and Replace";
     }
