@@ -29,10 +29,10 @@ namespace BatchRenamer.Patterns
             this.FileNameRegex = String.Empty;
             this.FileNameReplacement = String.Empty;
 
-            this.SelectedGroupIndex = -1;
-
             this.Groups = new ObservableCollection<String>();
             this.Matches = new ObservableCollection<WebRegexMatch>();
+
+            this.ResetGroups(true);
         }
 
         private Boolean _isReady;
@@ -364,7 +364,23 @@ namespace BatchRenamer.Patterns
             }
 
             this.IsReady = true;
-            this.SelectedGroupIndex = (this.Groups.Count > 0) ? 0 : -1;
+
+            this.ResetGroups(false);
+        }
+
+        private void ResetGroups(Boolean isForced)
+        {
+            if (isForced)
+            {
+                this.Groups.Clear();
+            }
+
+            if (this.Groups.Count == 0)
+            {
+                this.Groups.Add("-- Retrieve Web Source to get Match Groups --");
+            }
+
+            this.SelectedGroupIndex = 0;
         }
 
         public String LastWebRegex { get; set; }

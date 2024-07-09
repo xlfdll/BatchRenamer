@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BatchRenamer.Patterns"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        Title="Insert Text"
+        Title="Insert Text" WindowStyle="ToolWindow"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
         FocusManager.FocusedElement="{Binding ElementName=InsertTextBox}"
         WindowStartupLocation="CenterOwner" Width="800">
@@ -15,6 +15,9 @@
         <Grid.Resources>
             <Style TargetType="Grid">
                 <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style TargetType="ListView">
+                <Setter Property="Margin" Value="3"/>
             </Style>
             <Style TargetType="Label">
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -30,52 +33,59 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="300"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="_Text"/>
-        <TextBox x:Name="InsertTextBox" x:FieldModifier="private"
-                 Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
-                 Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}"/>
+        <GroupBox Grid.Row="0" Header="Preview" MinHeight="300">
+            <ListView ItemsSource="{Binding Path=CollectionViewSource.View}"
+                      SizeChanged="FilesListView_SizeChanged">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Preview">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Path=PreviewFileName}" IsReadOnly="True"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Modified" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
+                        <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Parameters">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="_Position"/>
-        <WindowsFormsHost Grid.Row="1" Grid.Column="1">
-            <forms:NumericUpDown x:Name="PositionNumericUpDown" DecimalPlaces="0" Minimum="0" Maximum="260" Value="0"
-                                 ValueChanged="PositionNumericUpDown_ValueChanged"/>
-        </WindowsFormsHost>
+                <Label Grid.Row="0" Grid.Column="0" Content="_Text"/>
+                <TextBox x:Name="InsertTextBox" x:FieldModifier="private"
+                         Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                         Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Button Grid.Row="1" Grid.Column="2" Content="_Preview" HorizontalAlignment="Right"
-                Command="{Binding Path=PreviewCommand}"/>
-
-        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Path=CollectionViewSource.View}"
-                  SizeChanged="FilesListView_SizeChanged">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Preview">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Path=PreviewFileName}" IsReadOnly="True"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Modified" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
-                    <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                <Label Grid.Row="1" Grid.Column="0" Content="_Position"/>
+                <WindowsFormsHost Grid.Row="1" Grid.Column="1">
+                    <forms:NumericUpDown x:Name="PositionNumericUpDown" DecimalPlaces="0" Minimum="0" Maximum="260" Value="0"
+                                         ValueChanged="PositionNumericUpDown_ValueChanged"/>
+                </WindowsFormsHost>
+            </Grid>
+        </GroupBox>
 
         <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="_Preview" Command="{Binding Path=PreviewCommand}"/>
             <Button Content="_Apply" IsDefault="True" Command="{Binding Path=ApplyCommand}"/>
             <Button Content="_Cancel" IsCancel="True"/>
         </StackPanel>

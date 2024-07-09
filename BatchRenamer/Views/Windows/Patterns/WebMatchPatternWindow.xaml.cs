@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BatchRenamer.Patterns
 {
@@ -29,6 +30,11 @@ namespace BatchRenamer.Patterns
             {
                 viewModel?.Files.Add(new PatternFileInfo(item));
             }
+        }
+
+        private void FilesListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            LayoutHelper.AdjustListViewColumns(sender as ListView);
         }
     }
 }
