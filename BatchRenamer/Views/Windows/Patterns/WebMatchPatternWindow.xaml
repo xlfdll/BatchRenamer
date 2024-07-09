@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRenamer.Patterns"
         mc:Ignorable="d"
-        Title="Web Match"
+        Title="Web Match" WindowStyle="ToolWindow"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
         FocusManager.FocusedElement="{Binding ElementName=WebURLTextBox}"
         WindowStartupLocation="CenterOwner" Width="1280">
@@ -14,6 +14,9 @@
         <Grid.Resources>
             <Style TargetType="Grid">
                 <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style TargetType="ListView">
+                <Setter Property="Margin" Value="3"/>
             </Style>
             <Style TargetType="GroupBox">
                 <Setter Property="Margin" Value="5"/>
@@ -34,146 +37,140 @@
             <Style TargetType="Button" BasedOn="{StaticResource ModernCommonButtonStyle}"/>
         </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
 
-        <GroupBox Grid.Row="0" Grid.Column="0" Header="Web Source">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="300"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Label Grid.Row="0" Grid.Column="0" Content="UR_L"/>
-                <TextBox x:Name="WebURLTextBox" x:FieldModifier="private"
-                         Grid.Row="0" Grid.Column="1" Text="{Binding Path=WebURL, UpdateSourceTrigger=PropertyChanged}"/>
-
-                <Label Grid.Row="1" Grid.Column="0" Content="_Expression"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=WebRegex, UpdateSourceTrigger=PropertyChanged}"/>
-
-                <Button Grid.Row="2" Grid.Column="1" Content="_Retrieve" HorizontalAlignment="Right"
-                        Command="{Binding Path=RetrieveCommand}"/>
-
-                <TreeView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Path=Matches}" >
-                    <TreeView.Resources>
-                        <HierarchicalDataTemplate DataType="{x:Type local:WebRegexMatch}" ItemsSource="{Binding Path=Children}">
-                            <TextBlock>
-                                <TextBlock Text="{Binding Path=Value}"/> (<TextBlock Text="{Binding Path=Children.Count}"/>)
-                            </TextBlock>
-                        </HierarchicalDataTemplate>
-                    </TreeView.Resources>
-                </TreeView>
-            </Grid>
-        </GroupBox>
-
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-            <Button Command="{Binding Path=OpenCommand}">
-                <Image Source="{StaticResource WebMatchOpenPatternIcon}"/>
-            </Button>
-            <Button Command="{Binding Path=SaveCommand}">
-                <Image Source="{StaticResource WebMatchSavePatternIcon}"/>
-            </Button>
-        </StackPanel>
-
-        <Grid Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <Label Grid.Row="0" Content="&lt;= _Match Group =&gt;"/>
-            <ComboBox Grid.Row="1" IsEnabled="{Binding Path=Groups.Count}"
-                      ItemsSource="{Binding Path=Groups}"
-                      SelectedIndex="{Binding Path=SelectedGroupIndex}">
-                <ComboBox.Resources>
-                    <Style TargetType="ComboBox">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=Matches.Count}" Value="0">
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-
-                        <Setter Property="Margin" Value="5"/>
+        <GroupBox Grid.Row="0" Header="Preview" MinHeight="300">
+            <ListView ItemsSource="{Binding Path=CollectionViewSource.View}"
+                      SizeChanged="FilesListView_SizeChanged">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     </Style>
-                </ComboBox.Resources>
-            </ComboBox>
-        </Grid>
-
-        <GroupBox Grid.Row="0" Grid.Column="2" Header="File Name Patterns">
-            <GroupBox.Resources>
-                <Style TargetType="GroupBox">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=Matches.Count}" Value="0">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-
-                    <Setter Property="Margin" Value="5"/>
-                </Style>
-            </GroupBox.Resources>
-
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Preview">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Path=PreviewFileName}" IsReadOnly="True"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Modified" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
+                        <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Parameters">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="300"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Content="_Source Expression"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=FileNameRegex, UpdateSourceTrigger=PropertyChanged}"/>
+                <ToolBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                         ToolBarTray.IsLocked="True" Style="{StaticResource ModernToolBarStyle}">
+                    <Button Command="{Binding Path=OpenCommand}">
+                        <StackPanel>
+                            <Image Source="{StaticResource WebMatchOpenPatternIcon}"/>
+                            <AccessText Text="_Open Web Match Pattern"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding Path=SaveCommand}">
+                        <StackPanel>
+                            <Image Source="{StaticResource WebMatchSavePatternIcon}"/>
+                            <AccessText Text="_Save Web Match Pattern"/>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+                <GroupBox Grid.Row="1" Grid.Column="0" Header="Web Source">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="1" Grid.Column="0" Content="_New Pattern"
-                       ToolTip="Example: Name ${Group1} - ${Group2}"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=FileNameReplacement, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Grid.Row="0" Grid.Column="0" Content="UR_L"/>
+                        <TextBox x:Name="WebURLTextBox" x:FieldModifier="private"
+                                 Grid.Row="0" Grid.Column="1" Text="{Binding Path=WebURL, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <Button Grid.Row="2" Grid.Column="1" Content="_Preview" HorizontalAlignment="Right"
-                        Command="{Binding Path=PreviewCommand}"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="_Expression"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=WebRegex, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <!-- No SizeChanged handler due to small ListView width -->
-                <!-- (First column width could be too small to display) -->
-                <ListView x:Name="FilesListView" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                          ItemsSource="{Binding Path=CollectionViewSource.View}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Button Grid.Row="2" Grid.Column="1" Content="_Retrieve" HorizontalAlignment="Right"
+                                Command="{Binding Path=RetrieveCommand}"/>
+
+                        <TreeView Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Height="100"
+                                  ItemsSource="{Binding Path=Matches}">
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type local:WebRegexMatch}" ItemsSource="{Binding Path=Children}">
+                                    <TextBlock>
+                                        <TextBlock Text="{Binding Path=Value}"/> (<TextBlock Text="{Binding Path=Children.Count}"/>)
+                                    </TextBlock>
+                                </HierarchicalDataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="1" Grid.Column="1" Header="File Name Patterns">
+                    <GroupBox.Resources>
+                        <Style TargetType="GroupBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Matches.Count}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                            <Setter Property="Margin" Value="5"/>
                         </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Preview">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding Path=PreviewFileName}" IsReadOnly="True"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Modified" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
-                            <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                            <Setter Property="Margin" Value="3"/>
+                        </Style>
+                    </GroupBox.Resources>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="_Match Group"/>
+                        <ComboBox Grid.Row="0" Grid.Column="1" IsEnabled="{Binding Path=Groups.Count}"
+                                  ItemsSource="{Binding Path=Groups}" VerticalContentAlignment="Center"
+                                  SelectedIndex="{Binding Path=SelectedGroupIndex}"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Content="_Source Expression"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=FileNameRegex, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" Content="_New Pattern"
+                               ToolTip="Example: Name ${Group1} - ${Group2}"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=FileNameReplacement, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </GroupBox>
             </Grid>
         </GroupBox>
 
-        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="_Preview" Command="{Binding Path=PreviewCommand}"/>
             <Button Content="_Apply" IsDefault="True"
                     Command="{Binding Path=ApplyCommand}"/>
             <Button Content="_Cancel" IsCancel="True"/>

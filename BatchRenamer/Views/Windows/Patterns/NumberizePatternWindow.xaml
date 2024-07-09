@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BatchRenamer.Patterns"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        Title="Numberize"
+        Title="Numberize" WindowStyle="ToolWindow"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" Width="800">
 
@@ -14,6 +14,9 @@
         <Grid.Resources>
             <Style TargetType="Grid">
                 <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style TargetType="ListView">
+                <Setter Property="Margin" Value="3"/>
             </Style>
             <Style TargetType="Label">
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -29,85 +32,88 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="300"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ItemsControl Grid.Row="0">
-            <ItemsControl.Resources>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ItemsControl.Resources>
+        <GroupBox Grid.Row="0" Header="Preview" MinHeight="300">
+            <ListView ItemsSource="{Binding Path=CollectionViewSource.View}"
+                      SizeChanged="FilesListView_SizeChanged">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Preview">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Path=PreviewFileName}" IsReadOnly="True"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Modified" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
+                        <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Parameters">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl>
+                    <ItemsControl.Resources>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ItemsControl.Resources>
 
-            <!-- ListBoxItem is the base class of other list item types (ComboBoxItem, ListViewItem, etc.) -->
-            <ListBoxItem>
-                <GroupBox>
-                    <GroupBox.Header>
-                        <RadioButton GroupName="Type" Content="_Numbers (1, 2, 3, ...)"
-                                     IsChecked="{Binding Path=IsNumber}"/>
-                    </GroupBox.Header>
-                    <GroupBox.Content>
-                        <Grid>
-                            <Grid.Resources>
-                                <Style TargetType="Grid">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=IsNumber}" Value="False">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Grid.Resources>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+                    <!-- ListBoxItem is the base class of other list item types (ComboBoxItem, ListViewItem, etc.) -->
+                    <ListBoxItem>
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <RadioButton GroupName="Type" Content="_Numbers (1, 2, 3, ...)"
+                                         IsChecked="{Binding Path=IsNumber}"/>
+                            </GroupBox.Header>
+                            <GroupBox.Content>
+                                <Grid>
+                                    <Grid.Resources>
+                                        <Style TargetType="Grid">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=IsNumber}" Value="False">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Resources>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0" Content="_Start"/>
-                            <WindowsFormsHost Grid.Row="1" Grid.Column="1">
-                                <forms:NumericUpDown x:Name="NumberStartNumericUpDown" DecimalPlaces="0" Minimum="0" Maximum="2147483647" Value="1"
-                                                     ValueChanged="NumberStartNumericUpDown_ValueChanged"/>
-                            </WindowsFormsHost>
+                                    <Label Grid.Row="0" Grid.Column="0" Content="_Start"/>
+                                    <WindowsFormsHost Grid.Row="1" Grid.Column="1">
+                                        <forms:NumericUpDown x:Name="NumberStartNumericUpDown"
+                                                         DecimalPlaces="0" Minimum="0" Maximum="2147483647" Value="1"
+                                                         ValueChanged="NumberStartNumericUpDown_ValueChanged"/>
+                                    </WindowsFormsHost>
 
-                            <Label Grid.Row="0" Grid.Column="2" Content="_Format"/>
-                            <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding Path=NumberFormat}"/>
-                        </Grid>
-                    </GroupBox.Content>
-                </GroupBox>
-            </ListBoxItem>
-        </ItemsControl>
-
-        <Button Grid.Row="1" Content="_Preview" HorizontalAlignment="Right"
-                Command="{Binding Path=PreviewCommand}"/>
-
-        <ListView Grid.Row="2" ItemsSource="{Binding Path=CollectionViewSource.View}"
-                  SizeChanged="FilesListView_SizeChanged">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Preview">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Path=PreviewFileName}" IsReadOnly="True"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Modified" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
-                    <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                                    <Label Grid.Row="0" Grid.Column="2" Content="_Format"/>
+                                    <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding Path=NumberFormat}"/>
+                                </Grid>
+                            </GroupBox.Content>
+                        </GroupBox>
+                    </ListBoxItem>
+                </ItemsControl>
+            </ScrollViewer>
+        </GroupBox>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="_Preview" Command="{Binding Path=PreviewCommand}"/>
             <Button Content="_Apply" IsDefault="True" Command="{Binding Path=ApplyCommand}"/>
             <Button Content="_Cancel" IsCancel="True"/>
         </StackPanel>

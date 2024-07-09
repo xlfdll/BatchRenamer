@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRenamer.Patterns"
         mc:Ignorable="d"
-        Title="Find and Replace"
+        Title="Find and Replace" WindowStyle="ToolWindow"
         ShowInTaskbar="False" SizeToContent="Height" ResizeMode="NoResize"
         FocusManager.FocusedElement="{Binding ElementName=FindWhatTextBox}"
         WindowStartupLocation="CenterOwner" Width="800">
@@ -18,6 +18,9 @@
             <Style TargetType="StackPanel">
                 <Setter Property="Margin" Value="5"/>
             </Style>
+            <Style TargetType="ListView">
+                <Setter Property="Margin" Value="3"/>
+            </Style>
             <Style TargetType="Label">
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
@@ -25,7 +28,7 @@
                 <Setter Property="Margin" Value="5"/>
             </Style>
             <Style TargetType="CheckBox">
-                <Setter Property="Margin" Value="3"/>
+                <Setter Property="Margin" Value="10,3"/>
             </Style>
             <Style TargetType="Button" BasedOn="{StaticResource ModernCommonButtonStyle}"/>
         </Grid.Resources>
@@ -33,53 +36,60 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="300"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="_Find What"/>
-        <TextBox x:Name="FindWhatTextBox" x:FieldModifier="private"
-                 Grid.Row="0" Grid.Column="1" Text="{Binding Path=FindWhat, UpdateSourceTrigger=PropertyChanged}"/>
+        <GroupBox Grid.Row="0" Header="Preview" MinHeight="300">
+            <ListView ItemsSource="{Binding Path=CollectionViewSource.View}"
+                      SizeChanged="FilesListView_SizeChanged">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Preview">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Path=PreviewFileName}" IsReadOnly="True"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Modified" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
+                        <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Parameters">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="_Replace With"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=ReplaceWith, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="_Find What"/>
+                <TextBox x:Name="FindWhatTextBox" x:FieldModifier="private"
+                         Grid.Row="0" Grid.Column="1" Text="{Binding Path=FindWhat, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical">
-            <CheckBox Content="_Match Case" IsChecked="{Binding Path=MatchCase}"/>
-            <CheckBox Content="_Use Regular Expressions" IsChecked="{Binding Path=UseRegex}"/>
-        </StackPanel>
+                <Label Grid.Row="1" Grid.Column="0" Content="_Replace With"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=ReplaceWith, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Button Grid.Row="2" Grid.Column="1" Content="_Preview" HorizontalAlignment="Right"
-                Command="{Binding Path=PreviewCommand}"/>
+                <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                            Orientation="Horizontal" HorizontalAlignment="Right">
+                    <CheckBox Content="_Match Case" IsChecked="{Binding Path=MatchCase}"/>
+                    <CheckBox Content="_Use Regular Expressions" IsChecked="{Binding Path=UseRegex}"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
 
-        <ListView Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Path=CollectionViewSource.View}"
-                  SizeChanged="FilesListView_SizeChanged">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Preview">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Path=PreviewFileName}" IsReadOnly="True"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Modified" DisplayMemberBinding="{Binding Path=FileInfo.NewFileName}"/>
-                    <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Path=FileInfo.OriginalFileName}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-
-        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="_Preview" Command="{Binding Path=PreviewCommand}"/>
             <Button Content="_Apply" IsDefault="True" Command="{Binding Path=ApplyCommand}"/>
             <Button Content="_Cancel" IsCancel="True"/>
         </StackPanel>
