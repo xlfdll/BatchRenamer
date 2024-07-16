@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 
@@ -10,6 +11,9 @@ namespace BatchRenamer.Patterns
         {
             this.MainViewModel = mainViewModel;
             this.Files = new ObservableCollection<PatternFileInfo>();
+            this.DoSelectAllFiles = !this.HasSelection;
+
+            this.InitializeFiles();
         }
 
         public MainViewModel MainViewModel { get; }
@@ -31,6 +35,37 @@ namespace BatchRenamer.Patterns
             }
         }
 
+        private Boolean _doSelectAllFiles;
+
+        public Boolean DoSelectAllFiles
+        {
+            get
+            {
+                return _doSelectAllFiles;
+            }
+            set
+            {
+                if (_doSelectAllFiles != value)
+                {
+                    SetField(ref _doSelectAllFiles, value);
+
+                    this.InitializeFiles();
+                }
+            }
+        }
+
+        protected void InitializeFiles()
+        {
+            this.Files.Clear();
+
+            IEnumerable<BatchFileInfo> files = this.DoSelectAllFiles ? this.MainViewModel.Files : this.MainViewModel.SelectedFiles;
+
+            foreach (BatchFileInfo item in files)
+            {
+                this.Files.Add(new PatternFileInfo(item));
+            }
+        }
+
         public event Action RequestClose;
 
         public void Close()
@@ -39,5 +74,7 @@ namespace BatchRenamer.Patterns
         }
 
         public Boolean IsError { get; protected set; }
+        public Boolean HasSelection
+            => this.MainViewModel.SelectedFiles.Count > 0;
     }
 }
