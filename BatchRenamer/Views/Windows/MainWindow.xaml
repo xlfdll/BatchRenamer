@@ -70,6 +70,13 @@
                                 <Image Source="{StaticResource TextInsertIcon}"/>
                             </MenuItem.Icon>
                         </MenuItem>
+                        <MenuItem Header="Case Conversion_..."
+                                  Command="{Binding Path=OpenPatternCommand}"
+                                  CommandParameter="CaseConversion">
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource TextCaseIcon}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem Header="_Numberize..."
                                   Command="{Binding Path=OpenPatternCommand}"
                                   CommandParameter="Numberize">
