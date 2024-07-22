@@ -118,6 +118,7 @@
     <Compile Include="Helpers\WorkHelper.cs" />
     <Compile Include="ViewModels\Controls\ContextMenuViewModel.cs" />
     <Compile Include="ViewModels\Controls\ToolBarViewModel.cs" />
+    <Compile Include="ViewModels\Patterns\CaseConversionPatternViewModel.cs" />
     <Compile Include="ViewModels\Patterns\NumberizePatternViewModel.cs" />
     <Compile Include="ViewModels\Patterns\InsertTextPatternViewModel.cs" />
     <Compile Include="ViewModels\Patterns\FindAndReplacePatternViewModel.cs" />
@@ -126,6 +127,9 @@
     <Compile Include="Data\Patterns\WebRegexMatch.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\Windows\Patterns\CaseConversionPatternWindow.xaml.cs">
+      <DependentUpon>CaseConversionPatternWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Windows\Patterns\FindAndReplacePatternWindow.xaml.cs">
       <DependentUpon>FindAndReplacePatternWindow.xaml</DependentUpon>
     </Compile>
@@ -174,6 +178,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Styles.ToolBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Windows\Patterns\CaseConversionPatternWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
