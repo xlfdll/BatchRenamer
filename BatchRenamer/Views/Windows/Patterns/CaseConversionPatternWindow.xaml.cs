@@ -4,16 +4,16 @@ using System.Windows.Controls;
 namespace BatchRenamer.Patterns
 {
     /// <summary>
-    /// WebMatchPatternWindow.xaml の相互作用ロジック
+    /// CaseConversionPatternWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class WebMatchPatternWindow : Window
+    public partial class CaseConversionPatternWindow : Window
     {
-        public WebMatchPatternWindow()
+        public CaseConversionPatternWindow()
         {
             InitializeComponent();
 
-            WebMatchPatternViewModel viewModel
-                = new WebMatchPatternViewModel(App.MainWindow.DataContext as MainViewModel);
+            CaseConversionPatternViewModel viewModel
+                = new CaseConversionPatternViewModel(App.MainWindow.DataContext as MainViewModel);
 
             viewModel.RequestClose += delegate { this.Close(); };
 

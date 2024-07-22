@@ -1,26 +1,19 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Windows.Data;
 
 using Xlfdll.Windows.Presentation;
 using Xlfdll.Windows.Presentation.Dialogs;
 
 namespace BatchRenamer.Patterns
 {
-    public class NumberizePatternViewModel : ViewModelBase
+    public class NumberizePatternViewModel : PatternViewModelBase
     {
         public NumberizePatternViewModel(MainViewModel mainViewModel)
+            : base(mainViewModel)
         {
-            this.MainViewModel = mainViewModel;
-
             this.IsNumber = true;
             this.NumberFormat = "{0:D1}";
             this.NumberStart = 1;
-
-            this.Files = new ObservableCollection<PatternFileInfo>();
         }
-
-        public MainViewModel MainViewModel { get; }
 
         private Boolean _isNumber;
         private String _numberFormat;
@@ -34,23 +27,6 @@ namespace BatchRenamer.Patterns
         {
             get { return _numberFormat; }
             set { SetField(ref _numberFormat, value); }
-        }
-
-        public ObservableCollection<PatternFileInfo> Files { get; }
-
-        private CollectionViewSource _collectionViewSource;
-
-        public CollectionViewSource CollectionViewSource
-        {
-            get
-            {
-                if (_collectionViewSource == null)
-                {
-                    _collectionViewSource = DataHelper.GetCollectionViewSource(this.Files);
-                }
-
-                return _collectionViewSource;
-            }
         }
 
         public RelayCommand<Object> PreviewCommand
@@ -98,15 +74,6 @@ namespace BatchRenamer.Patterns
             );
 
         public Int32 NumberStart { get; set; }
-
-        public event Action RequestClose;
-
-        public void Close()
-        {
-            this.RequestClose?.Invoke();
-        }
-
-        public Boolean IsError { get; set; }
 
         public const String Title = "Numberize";
     }

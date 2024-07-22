@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Windows.Data;
 
 using Xlfdll.Windows.Presentation;
 
 namespace BatchRenamer.Patterns
 {
-    public class InsertTextPatternViewModel : ViewModelBase
+    public class InsertTextPatternViewModel : PatternViewModelBase
     {
         public InsertTextPatternViewModel(MainViewModel mainViewModel)
+            : base(mainViewModel)
         {
-            this.MainViewModel = mainViewModel;
-
             this.Text = String.Empty;
-
-            this.Files = new ObservableCollection<PatternFileInfo>();
         }
-
-        public MainViewModel MainViewModel { get; }
 
         private String _text;
 
@@ -25,23 +18,6 @@ namespace BatchRenamer.Patterns
         {
             get { return _text; }
             set { SetField(ref _text, value); }
-        }
-
-        public ObservableCollection<PatternFileInfo> Files { get; }
-
-        private CollectionViewSource _collectionViewSource;
-
-        public CollectionViewSource CollectionViewSource
-        {
-            get
-            {
-                if (_collectionViewSource == null)
-                {
-                    _collectionViewSource = DataHelper.GetCollectionViewSource(this.Files);
-                }
-
-                return _collectionViewSource;
-            }
         }
 
         public RelayCommand<Object> PreviewCommand
@@ -83,13 +59,6 @@ namespace BatchRenamer.Patterns
             );
 
         public Int32 Position { get; set; }
-
-        public event Action RequestClose;
-
-        public void Close()
-        {
-            this.RequestClose?.Invoke();
-        }
 
         public const String Title = "Insert Text";
     }

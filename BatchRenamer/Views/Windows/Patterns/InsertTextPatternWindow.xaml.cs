@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,7 +9,7 @@ namespace BatchRenamer.Patterns
     /// </summary>
     public partial class InsertTextPatternWindow : Window
     {
-        private InsertTextPatternWindow()
+        public InsertTextPatternWindow()
         {
             InitializeComponent();
 
@@ -20,17 +19,6 @@ namespace BatchRenamer.Patterns
             viewModel.RequestClose += delegate { this.Close(); };
 
             this.DataContext = viewModel;
-        }
-
-        public InsertTextPatternWindow(IEnumerable<BatchFileInfo> files)
-            : this()
-        {
-            InsertTextPatternViewModel viewModel = this.DataContext as InsertTextPatternViewModel;
-
-            foreach (BatchFileInfo item in files)
-            {
-                viewModel?.Files.Add(new PatternFileInfo(item));
-            }
         }
 
         private void PositionNumericUpDown_ValueChanged(object sender, EventArgs e)

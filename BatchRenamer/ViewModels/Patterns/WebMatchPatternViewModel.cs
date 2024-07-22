@@ -7,7 +7,6 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Data;
 using System.Xml;
 
 using Microsoft.Win32;
@@ -18,12 +17,11 @@ using Xlfdll.Windows.Presentation.Dialogs;
 
 namespace BatchRenamer.Patterns
 {
-    public class WebMatchPatternViewModel : ViewModelBase
+    public class WebMatchPatternViewModel : PatternViewModelBase
     {
         public WebMatchPatternViewModel(MainViewModel mainViewModel)
+            : base(mainViewModel)
         {
-            this.MainViewModel = mainViewModel;
-
             this.IsReady = true;
 
             this.WebURL = String.Empty;
@@ -31,14 +29,11 @@ namespace BatchRenamer.Patterns
             this.FileNameRegex = String.Empty;
             this.FileNameReplacement = String.Empty;
 
-            this.SelectedGroupIndex = -1;
-
-            this.Files = new ObservableCollection<PatternFileInfo>();
             this.Groups = new ObservableCollection<String>();
             this.Matches = new ObservableCollection<WebRegexMatch>();
-        }
 
-        public MainViewModel MainViewModel { get; }
+            this.ResetGroups(true);
+        }
 
         private Boolean _isReady;
         private String _webURL;
@@ -78,24 +73,8 @@ namespace BatchRenamer.Patterns
             set { SetField(ref _selectedGroupIndex, value); }
         }
 
-        public ObservableCollection<PatternFileInfo> Files { get; }
         public ObservableCollection<String> Groups { get; }
         public ObservableCollection<WebRegexMatch> Matches { get; }
-
-        private CollectionViewSource _collectionViewSource;
-
-        public CollectionViewSource CollectionViewSource
-        {
-            get
-            {
-                if (_collectionViewSource == null)
-                {
-                    _collectionViewSource = DataHelper.GetCollectionViewSource(this.Files);
-                }
-
-                return _collectionViewSource;
-            }
-        }
 
         public RelayCommand<Object> RetrieveCommand
             => new RelayCommand<Object>
@@ -385,18 +364,26 @@ namespace BatchRenamer.Patterns
             }
 
             this.IsReady = true;
-            this.SelectedGroupIndex = (this.Groups.Count > 0) ? 0 : -1;
+
+            this.ResetGroups(false);
         }
 
-        public event Action RequestClose;
-
-        public void Close()
+        private void ResetGroups(Boolean isForced)
         {
-            this.RequestClose?.Invoke();
+            if (isForced)
+            {
+                this.Groups.Clear();
+            }
+
+            if (this.Groups.Count == 0)
+            {
+                this.Groups.Add("-- Retrieve Web Source to get Match Groups --");
+            }
+
+            this.SelectedGroupIndex = 0;
         }
 
         public String LastWebRegex { get; set; }
-        public Boolean IsError { get; set; }
 
         public const String Title = "Web Match";
     }

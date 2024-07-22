@@ -65,9 +65,8 @@ namespace BatchRenamer
             (
                 delegate (String argument)
                 {
-                    IEnumerable<BatchFileInfo> files = this.MainViewModel.SelectedFiles.Count > 0 ? this.MainViewModel.SelectedFiles : this.MainViewModel.Files;
                     Type t = Type.GetType($"BatchRenamer.Patterns.{argument}PatternWindow, {Assembly.GetExecutingAssembly().FullName}");
-                    Window patternWindow = Activator.CreateInstance(t, files) as Window;
+                    Window patternWindow = Activator.CreateInstance(t) as Window;
 
                     patternWindow.Owner = App.MainWindow;
                     patternWindow.ShowDialog();
