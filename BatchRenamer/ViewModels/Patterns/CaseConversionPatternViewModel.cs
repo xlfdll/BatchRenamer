@@ -78,19 +78,19 @@ namespace BatchRenamer.Patterns
                     {
                         TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 
-                        item.PreviewFileName = textInfo.ToTitleCase(item.FileInfo.OriginalFileName.ToLowerInvariant());
+                        item.PreviewFileName = textInfo.ToTitleCase(item.FileInfo.NewFileName.ToLowerInvariant());
 
                         break;
                     }
                 case "Uppercase":
-                    item.PreviewFileName = item.FileInfo.OriginalFileName.ToUpperInvariant();
+                    item.PreviewFileName = item.FileInfo.NewFileName.ToUpperInvariant();
                     break;
                 case "Lowercase":
-                    item.PreviewFileName = item.FileInfo.OriginalFileName.ToLowerInvariant();
+                    item.PreviewFileName = item.FileInfo.NewFileName.ToLowerInvariant();
                     break;
                 case "Reverse":
                     {
-                        StringBuilder sb = new StringBuilder(item.FileInfo.OriginalFileName);
+                        StringBuilder sb = new StringBuilder(item.FileInfo.NewFileName);
 
                         for (Int32 i = 0; i < sb.Length; i++)
                         {
