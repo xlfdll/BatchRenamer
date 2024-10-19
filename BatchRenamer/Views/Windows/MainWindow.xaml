@@ -186,7 +186,8 @@
                                     <TextBox x:Name="NewFileNameTextBox"
                                              Text="{Binding Path=NewFileName, UpdateSourceTrigger=PropertyChanged}"
                                              GotFocus="NewFileNameTextBox_GotFocus"
-                                             PreviewKeyDown="NewFileNameTextBox_PreviewKeyDown"/>
+                                             PreviewKeyDown="NewFileNameTextBox_PreviewKeyDown"
+                                             LostFocus="NewFileNameTextBox_LostFocus"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
