@@ -90,12 +90,12 @@ namespace BatchRenamer
 
         public void RemoveFiles(IEnumerable<BatchFileInfo> fileInfos)
         {
-            this.Files.RemoveRange(fileInfos);
-
             foreach (BatchFileInfo fileInfo in fileInfos)
             {
                 this.FileHashSet.Remove(fileInfo.OriginalFilePath);
             }
+
+            this.Files.RemoveRange(fileInfos);
         }
 
         public void UpdateSelection()
