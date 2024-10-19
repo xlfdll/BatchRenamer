@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+
+using BatchRenamer.Helpers;
 
 using Xlfdll.Windows.Presentation;
 
@@ -192,6 +196,21 @@ namespace BatchRenamer
 
                         e.Handled = true;
                     }
+                }
+            }
+        }
+
+        private void NewFileNameTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ListViewItem item = (sender as TextBox).GetParent<ListViewItem>();
+
+            if (item != null)
+            {
+                BatchFileInfo batchFileInfo = item.Content as BatchFileInfo;
+
+                if (batchFileInfo != null)
+                {
+                    batchFileInfo.NewFileName = batchFileInfo.NewFileName.Clean();
                 }
             }
         }

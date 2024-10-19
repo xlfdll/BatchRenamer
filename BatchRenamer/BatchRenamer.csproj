@@ -115,6 +115,7 @@
     <Compile Include="Converters\FileSizeValueConverter.cs" />
     <Compile Include="Data\Patterns\PatternFileInfo.cs" />
     <Compile Include="Helpers\DataHelper.cs" />
+    <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="Helpers\WorkHelper.cs" />
     <Compile Include="ViewModels\Controls\ContextMenuViewModel.cs" />
     <Compile Include="ViewModels\Controls\ToolBarViewModel.cs" />

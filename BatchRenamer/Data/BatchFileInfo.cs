@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 
+using BatchRenamer.Helpers;
+
 using Xlfdll;
 
 namespace BatchRenamer
@@ -73,6 +75,8 @@ namespace BatchRenamer
         {
             if (this.IsModified)
             {
+                this.NewFileName = this.NewFileName.Clean();
+
                 this.OriginalFileInfo.MoveTo(this.NewFilePath);
 
                 this.OnPropertyChanged();
