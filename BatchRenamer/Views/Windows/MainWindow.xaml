@@ -70,6 +70,13 @@
                                 <Image Source="{StaticResource TextInsertIcon}"/>
                             </MenuItem.Icon>
                         </MenuItem>
+                        <MenuItem Header="_Trim Text..."
+                                  Command="{Binding Path=OpenPatternCommand}"
+                                  CommandParameter="TrimText">
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource TextTrimIcon}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem Header="Case Conversion_..."
                                   Command="{Binding Path=OpenPatternCommand}"
                                   CommandParameter="CaseConversion">
