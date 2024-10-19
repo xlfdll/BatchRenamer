@@ -119,6 +119,7 @@
     <Compile Include="ViewModels\Controls\ContextMenuViewModel.cs" />
     <Compile Include="ViewModels\Controls\ToolBarViewModel.cs" />
     <Compile Include="ViewModels\Patterns\CaseConversionPatternViewModel.cs" />
+    <Compile Include="ViewModels\Patterns\TrimTextPatternViewModel.cs" />
     <Compile Include="ViewModels\Patterns\NumberizePatternViewModel.cs" />
     <Compile Include="ViewModels\Patterns\InsertTextPatternViewModel.cs" />
     <Compile Include="ViewModels\Patterns\FindAndReplacePatternViewModel.cs" />
@@ -132,6 +133,9 @@
     </Compile>
     <Compile Include="Views\Windows\Patterns\FindAndReplacePatternWindow.xaml.cs">
       <DependentUpon>FindAndReplacePatternWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\Patterns\TrimTextPatternWindow.xaml.cs">
+      <DependentUpon>TrimTextPatternWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\Patterns\InsertTextPatternWindow.xaml.cs">
       <DependentUpon>InsertTextPatternWindow.xaml</DependentUpon>
@@ -188,6 +192,10 @@
     <Page Include="Views\Windows\Patterns\FindAndReplacePatternWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\Patterns\TrimTextPatternWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Windows\Patterns\InsertTextPatternWindow.xaml">
       <SubType>Designer</SubType>
