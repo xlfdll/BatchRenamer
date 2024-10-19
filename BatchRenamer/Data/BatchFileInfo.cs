@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-using BatchRenamer.Helpers;
-
 using Xlfdll;
+
+using BatchRenamer.Helpers;
 
 namespace BatchRenamer
 {

@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-using BatchRenamer.Helpers;
-
 using Xlfdll.Windows.Presentation;
+
+using BatchRenamer.Helpers;
 
 namespace BatchRenamer
 {
