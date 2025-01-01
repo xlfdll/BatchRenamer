@@ -73,7 +73,7 @@
                     <RadioButton Content="All Files" IsChecked="{Binding Path=DoSelectAllFiles}"/>
                 </StackPanel>
 
-                <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" MinHeight="300"
+                <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="300"
                           ItemsSource="{Binding Path=CollectionViewSource.View}"
                           SizeChanged="FilesListView_SizeChanged">
                     <ListView.ItemContainerStyle>
