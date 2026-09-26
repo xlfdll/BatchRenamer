@@ -88,6 +88,9 @@ namespace BatchRenamer.Patterns
                         Encoding = Encoding.UTF8
                     };
 
+                    webClient.Headers.Add
+                        ("User-Agent",
+                        "BatchRenamer Mozilla/5.0 (Windows NT 10.0; WOW64) Chrome/124.0.0.0");
                     webClient.DownloadStringCompleted += WebClient_DownloadStringCompleted;
 
                     try
